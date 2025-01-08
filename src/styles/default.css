@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primaryColor: #088649;
+    --background-color: #fff;
+    --text-color: #000;
+    --borderColor: #3331;
+    --productBoxBg: #3331;
+}
+
+body.dark-theme {
+    --background-color: #141414;
+    --text-color: #fff;
+    --borderColor: #c6c6c632;
+    --productBoxBg: #c6c6c632;
+}
+
+body {
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+svg {
+    vertical-align: middle;
+}
+
+button,
+input {
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    max-width: 1300px;
+}
+
+/* ---------------- loading spinner ---------------- */
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid var(--text-color);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------------- responsive ---------------- */
+@media only screen and (max-width: 768px) {
+    .container {
+        width: 92%;
+    }
+}

@@ -1,0 +1,107 @@
+.offer-slider-box {
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0 0 0;
+}
+
+.offer-slider-box .offer-box {
+    color: white;
+    background: var(--primaryColor);
+    padding: 20px;
+    height: 300px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.offer-slider-box .offer-box svg {
+    height: 100%;
+}
+
+.offer-slider-box .offer-box .box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 7px;
+}
+
+.offer-box .shop-now {
+    padding: 10px 20px;
+    border-radius: 100px;
+    color: black;
+    background: white;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.category-bar {
+    padding: 10px 0;
+}
+
+.category-bar .content {
+    text-align: center;
+    padding: 0 0 10px 0;
+}
+
+.category-bar .category-list {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.category-bar .category-list::-webkit-scrollbar {
+    display: none;
+}
+
+.category-bar .category-list .category {
+    padding: 0 10px;
+    min-width: max-content;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    -ms-user-select: none;
+    transition: .3s ease-in-out;
+}
+
+.category-bar .category-list .category.active{
+    background: var(--primaryColor);
+    color: white;
+}
+
+.category-bar .category-list .category *{
+    pointer-events: none;
+}
+
+/* ---------------- responsive ---------------- */
+
+@media only screen and (max-width: 768px){
+    .offer-slider-box .offer-box{
+        height: 200px;
+    }
+    .offer-slider-box .offer-box .box-content h1{
+        font-size: 23px;
+    }
+    .offer-box .shop-now{
+        margin-top: 0;
+    }
+    .offer-slider-box .offer-box svg{
+        width: 150px;
+    }
+}
+
+@media only screen and (max-width: 430px){
+    .offer-slider-box .offer-box{
+        height: auto;
+    }
+    .offer-slider-box .offer-box svg{
+        display: none;
+    }
+}
