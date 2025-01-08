@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Tazroo/static/css/main.767110a2.css",
+    "main.js": "/Tazroo/static/js/main.7b1fc6c1.js",
+    "static/js/488.d1b32952.chunk.js": "/Tazroo/static/js/488.d1b32952.chunk.js",
+    "static/media/shopping.svg": "/Tazroo/static/media/shopping.bb215e656f44a5ef234014957960bdbf.svg",
+    "static/media/cart normal.svg": "/Tazroo/static/media/cart normal.b829095f7097a5716bf4b0ce39bb1f32.svg",
+    "static/media/sun.svg": "/Tazroo/static/media/sun.6f5e78b8fc82acc9987fbd9d9c834619.svg",
+    "static/media/search.svg": "/Tazroo/static/media/search.71936ac72825ba327c7eb5310d5a5dfa.svg",
+    "static/media/featured.svg": "/Tazroo/static/media/featured.b28a78d3ba58725e9579a06801727ef5.svg",
+    "static/media/cart.svg": "/Tazroo/static/media/cart.7e65b4a3cf9867377495d70df189eae7.svg",
+    "static/media/user.svg": "/Tazroo/static/media/user.7114431969d5fae5a7a130fc9a827e08.svg",
+    "static/media/moon.svg": "/Tazroo/static/media/moon.2b87b3705d65dd1dab25d9f4631fdf2f.svg",
+    "index.html": "/Tazroo/index.html",
+    "main.767110a2.css.map": "/Tazroo/static/css/main.767110a2.css.map",
+    "main.7b1fc6c1.js.map": "/Tazroo/static/js/main.7b1fc6c1.js.map",
+    "488.d1b32952.chunk.js.map": "/Tazroo/static/js/488.d1b32952.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.767110a2.css",
+    "static/js/main.7b1fc6c1.js"
+  ]
+}
