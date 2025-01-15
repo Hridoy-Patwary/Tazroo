@@ -1,0 +1,26 @@
+.profile-container{
+    padding: 20px 0;
+}
+
+.profile-container .profile-hero-area{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.profile-container .profile-hero-area small{
+    color: var(--secondaryTextColor);
+}
+
+.profile-container .log-out-btn{
+    width: 120px;
+    height: 40px;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    margin: auto;
+    margin-top: 20px;
+}

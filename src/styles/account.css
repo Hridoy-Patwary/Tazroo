@@ -84,6 +84,11 @@
     visibility: visible;
 }
 
+.content-sign-in .logo-container, .content-sign-up .logo-container{
+    width: max-content;
+    margin: auto;
+}
+
 .inputs-container {
     display: flex;
     flex-direction: column;
@@ -214,10 +219,6 @@
 }
 
 @media only screen and (max-width: 768px){
-    body{
-        overflow: hidden;
-    }
-
     .account-user-container{
         background: var(--primaryColor);
     }

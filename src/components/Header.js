@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 import logoWhite from '../assets/logo - white.png';
 import { ThemeContext } from './ThemeToggle';
@@ -12,10 +12,13 @@ import '../styles/header.css';
 import ThemeToggleIcon from './ThemeToggleIcon';
 
 export default function Header() {
-    const { theme, toggleTheme } = useContext(ThemeContext);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const [scrollDirection, setScrollDirection] = useState(null);
+    const navigate = useNavigate();
+    const [search, setSearch] = useState();
     const [items, setItems] = useState();
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    const [pathLocation, setPathLocation] = useState('/account');
+    const [scrollDirection, setScrollDirection] = useState(null);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const isDarkMode = theme === 'dark';
 
 
@@ -37,13 +40,20 @@ export default function Header() {
         headerOuter.classList.toggle('active');
     }
 
+    const searchInpHandler = (e) => {
+        setSearch(e.target.value);
+    }
+
+    const searchHandler = () => {
+        navigate('/search');
+    }
 
     useEffect(() => {
         const cartItems = JSON.parse(localStorage.getItem("cart"));
-
         let lastScrollY = window.scrollY; // Keep track of the last scroll position
-
         const handleResize = () => setWindowWidth(window.innerWidth);
+
+        if(localStorage.getItem('ud')) setPathLocation('/profile');
 
         const handleScroll = () => {
             const headerOuter = document.querySelector(".header-outer");
@@ -80,8 +90,8 @@ export default function Header() {
                 </Link>
                 <div className="header-search">
                     <SearchIcon width={20} height={20} fill={windowWidth < 768 ? 'black' : (isDarkMode ? 'white' : 'black')} />
-                    <input type="text" placeholder='Search...' />
-                    <button className='search-btn'>
+                    <input type="text" placeholder='Search...' onChange={searchInpHandler} />
+                    <button className='search-btn' onClick={searchHandler}>
                         <span>Search</span>
                     </button>
                 </div>
@@ -99,7 +109,7 @@ export default function Header() {
                         <span className={`${items ? 'active' : ''}`}>{items ? items.length : ''}</span>
                         <span className='button-content-mob'>Cart</span>
                     </Link>
-                    <Link to={'/account'} className='header-button'>
+                    <Link to={pathLocation} className='header-button'>
                         <span>
                             <UserIcon width={23} />
                         </span>

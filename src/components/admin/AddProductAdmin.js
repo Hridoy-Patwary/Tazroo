@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 export default function AddProductAdmin() {
     const formRef = useRef();
+    const [files, setFiles] = useState(null);
     let droppedFiles = {}
 
     const swap = (node1, node2) => {
@@ -25,12 +26,32 @@ export default function AddProductAdmin() {
         }
     }
 
-    const handleSubmit = () => {
+    const fileChangeHandler = (e) => {
+        setFiles(e.target.files);
+    }
+
+    const handleSubmit = async () => {
         const form = formRef.current;
         const formData = new FormData(form);
+        
+        Array.from(files).forEach((file) => {
+            formData.append('files', file);
+        });
 
-        const obj = Object.fromEntries(formData)
-        console.log(obj)
+        const obj = Object.fromEntries(formData);
+        
+        try {
+            const res = await fetch('http://localhost:4000/api/v1/product', {
+                method: 'post',
+                body: formData
+            });
+
+            console.log(res);
+        } catch (error) {
+            console.log(error)
+        }
+
+        console.log(obj);
     }
     return (
         <div className='admin-panel-add-product'>
@@ -69,7 +90,7 @@ export default function AddProductAdmin() {
                     <div className="inp-box w25 depertment">
                         <span>Stock Status</span>
                         <div className="inp-box-inner">
-                            <select name="department">
+                            <select name="stock">
                                 <option value="residential">In Stock</option>
                                 <option value="commercial">Out Of Stock</option>
                             </select>
@@ -78,7 +99,7 @@ export default function AddProductAdmin() {
                     <div className="inp-box w25 instructiong_type">
                         <span>Category</span>
                         <div className="inp-box-inner">
-                            <select name="instruction_type">
+                            <select name="category">
                                 <option value="it">IT Accessories</option>
                                 <option value="electronics">Electronics</option>
                                 <option value="cloathing">Cloathing</option>
@@ -88,9 +109,9 @@ export default function AddProductAdmin() {
                     <div className="inp-box w25 availability">
                         <span>Pickup Location</span>
                         <div className="inp-box-inner">
-                            <select name="availability">
+                            <select name="location">
                                 <option value="for_sale">Anywhere</option>
-                                <option value="sold">Cumilla computer &amp; IT Center</option>
+                                <option value="sold">Cumilla Computer &amp; IT Center</option>
                                 <option value="under_offer">Add Location</option>
                             </select>
                         </div>
@@ -98,7 +119,7 @@ export default function AddProductAdmin() {
                     <div className="inp-box w25 warranty">
                         <span>Warranty</span>
                         <div className="inp-box-inner">
-                            <select name="tenure">
+                            <select name="warranty">
                                 <option value="sd">Same Day</option>
                                 <option value="3mnth">3 Months</option>
                                 <option value="6mnth">6 Months</option>
@@ -125,7 +146,7 @@ export default function AddProductAdmin() {
                                     <span>Or</span>
                                     <div className="inn-media-inp">
                                         <span>Select file</span>
-                                        <input type="file" multiple="" />
+                                        <input type="file" multiple onChange={fileChangeHandler} />
                                     </div>
                                 </div>
                             </div>

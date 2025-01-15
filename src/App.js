@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Admin from './pages/Admin';
 import { useState } from 'react';
 import AdminLogin from './pages/AdminLogin';
+import Profile from './pages/Profile';
 
 function App() {
   const [header, setHeader] = useState(true);
@@ -25,6 +26,7 @@ function App() {
           <Route path='/cart' element={<Cart hdr={setHeaderVisibility} />} />
           <Route path='/product' element={<Product hdr={setHeaderVisibility} />} />
           <Route path='/account' element={<User hdr={setHeaderVisibility} />} />
+          <Route path='/profile' element={<Profile hdr={setHeaderVisibility} />} />
           <Route path='/admin' element={<Admin hdr={setHeaderVisibility} />} />
           <Route path='/admin/login' element={<AdminLogin hdr={setHeaderVisibility} />} />
         </Routes>

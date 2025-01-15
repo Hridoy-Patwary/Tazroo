@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 import '../styles/account.css'
 
 export default function User({ hdr }) {
+    const navigate = useNavigate();
     const [data, setData] = useState({
         name: '',
         email: '',
         password: ''
-    })
+    });
 
 
     const alreadyHaveAccHandler = (e) => {
@@ -82,7 +83,12 @@ export default function User({ hdr }) {
                     "Content-Type": 'application/json'
                 },
                 body: JSON.stringify(data)
-            });
+            }).then((res) => res.json()).then((data) => {
+                localStorage.setItem('ud', JSON.stringify(data.data));
+                navigate('/profile');
+            }).catch((err) => {
+                console.log(err);
+            })
         } catch (error) {
             console.log(error);
         }
@@ -90,13 +96,18 @@ export default function User({ hdr }) {
 
     const signUpHandler = async () => {
         try {
-            await fetch('http://localhost:4000/api/v1/user/login', {
+            await fetch('http://localhost:4000/api/v1/user/signup', {
                 method: 'post',
                 headers: {
                     "Content-Type": 'application/json'
                 },
                 body: JSON.stringify(data)
-            });
+            }).then((res) => res.json()).then((data) => {
+                localStorage.setItem('ud', JSON.stringify(data.data));
+                navigate('/profile');
+            }).catch(err => {
+                console.log(err);
+            })
         } catch (error) {
             console.log(error);
         }
