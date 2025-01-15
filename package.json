@@ -1,7 +1,7 @@
 {
   "name": "web",
   "version": "0.1.0",
-  "homepage": "https://hridoy-patwary.github.io/Tazroo",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",

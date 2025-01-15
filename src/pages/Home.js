@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Products from '../components/Products'
 import { ReactComponent as ShopIcon } from '../assets/vector/shopping.svg';
 import '../styles/home.css'
 
-export default function Home() {
+export default function Home({ hdr }) {
     const categoryList = ['All', 'IT Accessories', 'Gaming', 'Electronics', 'Clothing'];
     
     const handleCategoryClick = (e) => {
@@ -14,9 +14,14 @@ export default function Home() {
         if(oldCategoryActive) oldCategoryActive.classList.remove('active');
         categoryElm.classList.add('active');
     };
+
+    useEffect(() => {
+        hdr(true);
+    }, [hdr]);
     return (
         <div className='home-container'>
             <div className="container">
+                <div className="hero-area">
                 <div className="offer-slider-box">
                     <div className="offer-box">
                         <div className="box-content">
@@ -26,6 +31,8 @@ export default function Home() {
                         </div>
                         <ShopIcon />
                     </div>
+                </div>
+                <div className="custom-order-box">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ullam eveniet, iure eos aut assumenda eius aperiam accusantium aliquam, numquam facilis animi nobis dolorum commodi provident reiciendis laboriosam recusandae voluptatibus itaque illum perspiciatis ad hic. Repellendus tempore amet consequatur assumenda, molestias laborum architecto et ipsum nulla iusto. Maiores, praesentium cupiditate.</div>
                 </div>
                 <div className="category-bar">
                     <div className="content">

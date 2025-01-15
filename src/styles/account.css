@@ -1,0 +1,373 @@
+.account-user-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: rgb(242, 246, 249);;
+}
+
+.account-outer-container{
+    width: 90%;
+    min-width: 500px;
+    max-width: 1100px;
+    min-height: 350px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.slider-main-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    box-shadow: 2px 2px 90px #33333329;
+}
+
+.slider-main-container::after {
+    content: "";
+    width: 50%;
+    height: 100%;
+    background: var(--primaryColor);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+}
+
+.active-anim .slider-main-container::after{
+    transition: .3s ease-in-out;
+}
+
+.slider-main-container.active::after {
+    left: 0%;
+}
+
+.logo-container{
+    text-align: center;
+    padding: 20px 0;
+    display: block;
+}
+
+.slider-main-container .content-container {
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 473px;
+}
+
+.content-container .content-box{
+    text-align: center;
+}
+
+.slider-main-container .active {
+    color: black;
+}
+
+.content-sign-in,
+.content-sign-up {
+    position: absolute;
+    width: 96%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.active-anim .content-sign-in,
+.active-anim .content-sign-up{
+    transition: .3s ease-in-out;
+}
+
+.content-sign-in.active, .content-sign-up.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.remember-this-device{
+    text-align: center;
+    color: var(--secondaryTextColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: max-content;
+    margin: 15px auto 0 auto;
+}
+
+.remember-this-device input{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.remember-this-device input[type=checkbox]{
+    accent-color: var(--primaryColor);
+}
+
+.remember-this-device label{
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.inputs-container input {
+    height: 40px;
+    color: #333;
+    border: none;
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    padding: 0 0 0 10px;
+    font-size: 15px;
+    width: 320px;
+    max-width: 90%;
+    background: none;
+}
+
+.inputs-container input:focus{
+    border: 1px solid var(--borderColor);
+}
+
+.signup, .signin {
+    width: 100px;
+    height: 40px;
+    background: var(--primaryColor);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 12px;
+}
+
+.content-box .sub-title{
+    color: rgb(50, 50, 50);
+    margin-top: 6px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.content-box .desc p{
+    color: #2e2e2e;
+}
+
+.content-box .desc p:not(:first-child){
+    color: rgb(92, 92, 92)
+}
+
+.content-box .desc p:not(:last-child){
+    margin-bottom: 10px;
+}
+
+.already-have-acc{
+    color: var(--secondaryTextColor);
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.already-have-acc span:last-child{
+    display: inline-block;
+    cursor: pointer;
+    color: var(--primaryColor);
+    font-weight: 600;
+}
+
+.social-login-container .social-login-title{
+    color: var(--secondaryTextColor);
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.social-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: max-content;
+    margin: auto;
+    padding: 0 0 30px 0;
+}
+
+.social-login .login-with{
+    padding: 4px;
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* ---------------- responsive ---------------- */
+
+.account-outer-container .sign-in-or-sign-up-outer, .outer-logo-container{
+    display: none;
+}
+
+@media only screen and (max-width: 768px){
+    body{
+        overflow: hidden;
+    }
+
+    .account-user-container{
+        background: var(--primaryColor);
+    }
+    
+    .outer-logo-container{
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .nav-theme-ico{
+        position: absolute;
+        top: 29px;
+        right: 33px
+    }
+
+    .account-outer-container{
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        padding: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .account-outer-container .sign-in-or-sign-up-outer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        border-bottom: 1px solid var(--borderColor);
+        padding-bottom: 15px;
+    }
+
+    .account-outer-container .sign-up-or-sign-in{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: max-content;
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .account-outer-container .sign-up-or-sign-in div{
+        background: rgba(165, 165, 165, 0.16);
+        padding: 7px 10px;
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        color: black;
+    }
+    
+    .active-anim .sign-up-or-sign-in::after{
+        transition: .3s ease-in-out;
+    }
+    .active-anim .sign-up-or-sign-in div{
+        transition: 300ms ease;
+    }
+
+    .account-outer-container .sign-up-or-sign-in .active{
+        color: white;
+    }
+
+    .account-outer-container .sign-up-or-sign-in::after{
+        content: "";
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: var(--primaryColor);
+        z-index: 0;
+    }
+
+
+    .account-outer-container .sign-up-or-sign-in.in::after{
+        left: 50%;
+    }
+
+    .slider-main-container{
+        min-width: 200%;
+        border-radius: 0;
+        box-shadow: none;
+        display: flex;
+        position: initial;
+        transform: translateX(0%);
+    }
+    
+    .active-anim .slider-main-container{
+        transition: .3s ease-in-out;
+    }
+
+    .slider-main-container.active{
+        transform: translateX(-50%);
+    }
+
+    .slider-main-container .content-container{
+        width: 100%;
+        padding-top: 15px;
+    }
+
+    .content-sign-in, .content-sign-up{
+        position: initial;
+        opacity: 1;
+        visibility: visible;
+        width: 100%;
+    }
+
+    .slider-main-container::after, .content-box{
+        display: none;
+    }
+
+    .inputs-container input{
+        width: 90%;
+        max-width: 320px;
+    }
+
+    .social-login{
+        padding-bottom: 0;
+    }
+}
+
+@media only screen and (min-height: 520px) and (max-height: 1100px) and (max-width: 768px){
+    .account-outer-container{
+        padding: 15px 0;
+    }
+}
+
+@media only screen and (max-height: 500px) and (max-width: 768px){
+    body{
+        background: white;
+        overflow-y: auto;
+    }
+
+    .account-outer-container{
+        position: initial;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .outer-logo-container{
+        display: none;
+    }
+}

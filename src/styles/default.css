@@ -5,14 +5,15 @@
 }
 
 :root {
-    --primaryColor: #088649;
+    --primaryColor: #2ab873;
     --background-color: #fff;
     --text-color: #000;
+    --secondaryTextColor: #999;
     --borderColor: #3331;
     --productBoxBg: #3331;
 }
 
-body.dark-theme {
+[theme='dark']:root {
     --background-color: #141414;
     --text-color: #fff;
     --borderColor: #c6c6c632;
@@ -48,6 +49,16 @@ button {
     width: 80%;
     margin: auto;
     max-width: 1300px;
+}
+
+.u_sel_none{
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+}
+
+.t-center{
+    text-align: center;
 }
 
 /* ---------------- loading spinner ---------------- */

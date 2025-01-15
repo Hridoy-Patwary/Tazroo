@@ -1,7 +1,25 @@
+.hero-area{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 .offer-slider-box {
     border-radius: 10px;
     overflow: hidden;
-    margin: 15px 0 0 0;
+    width: 75%;
+}
+
+.custom-order-box{
+    width: 25%;
+    background: var(--productBoxBg);
+    color: var(--text-color);
+    border-radius: 10px;
+    padding: 10px;
+    height: 300px;
+    overflow: hidden;
 }
 
 .offer-slider-box .offer-box {
@@ -83,6 +101,9 @@
 /* ---------------- responsive ---------------- */
 
 @media only screen and (max-width: 768px){
+    .hero-area{
+        flex-direction: column;
+    }
     .offer-slider-box .offer-box{
         height: 200px;
     }
@@ -94,6 +115,12 @@
     }
     .offer-slider-box .offer-box svg{
         width: 150px;
+    }
+    .offer-slider-box, .custom-order-box {
+        width: 100%;
+    }
+    .custom-order-box{
+        height: max-content;
     }
 }
 

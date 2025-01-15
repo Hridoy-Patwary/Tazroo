@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/cart.css';
 
-export default function Cart() {
+export default function Cart({ hdr }) {
     const [items, setItems] = useState();
     const [location, setLocation] = useState(null);
 
@@ -23,7 +23,8 @@ export default function Cart() {
     useEffect(() => {
         const cartItems = JSON.parse(localStorage.getItem('cart'));
         setItems(cartItems);
-    }, [])
+        hdr(true);
+    }, [hdr])
     
     return (
         <div className='cart-container'>

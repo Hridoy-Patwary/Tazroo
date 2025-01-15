@@ -13,6 +13,7 @@ const ThemeProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        document.documentElement.setAttribute('theme', theme)
         document.body.className = theme === 'dark' ? 'dark-theme' : '';
     }, [theme]);
 

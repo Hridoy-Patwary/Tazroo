@@ -1,0 +1,439 @@
+.admin-panel-container{
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.admin-panel-container .admin-left-bar{
+    background: #333;
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+.admin-panel-container .admin-panel-overflow-scroller{
+    max-height: 100vh;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.admin-left-bar .log-out-admin{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    width: calc(100% - 40px);
+    padding: 10px 0;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    color: white;
+    background: red;
+    transform: translateX(-50%);
+}
+
+.admin-panel-container .admin-left-bar ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+}
+
+.admin-panel-container .admin-left-bar ul li{
+    padding: 10px;
+    border: 1px solid #727272a7;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.admin-panel-container .admin-left-bar ul li.active{
+    font-weight: 600;
+    background: var(--primaryColor);
+    border-color: var(--primaryColor);
+}
+
+.admin-panel-container .admin-left-bar ul li:hover{
+    background: var(--primaryColor);
+}
+
+.main-container h1:first-child {
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+.main-container {
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.main-container .form-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--border-color);
+    user-select: none;
+    cursor: default;
+}
+
+.main-container .form-header .timestamp {
+    text-align: right;
+}
+
+.inp-boxes-grid-container {
+    display: flex;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-color);
+    text-transform: capitalize;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.inp-boxes-grid-container .inp-box {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 15px;
+    width: 100%;
+    font-weight: lighter;
+}
+
+.inp-boxes-grid-container .inp-box.desc-and-feature .dflex {
+    justify-content: space-between;
+}
+
+.inp-boxes-grid-container .inp-box.desc-and-feature .options .make-list-item {
+    font-weight: bold;
+    color: #3333;
+    cursor: pointer;
+    transition: .2s ease;
+    user-select: none;
+}
+
+.inp-boxes-grid-container .inp-box.desc-and-feature .options .make-list-item:hover {
+    color: inherit;
+}
+
+.inp-boxes-grid-container .inp-box.desc-and-feature .options .make-list-item.active {
+    color: black;
+}
+
+.inp-boxes-grid-container .inp-box.desc-and-feature .options.unactive {
+    pointer-events: none;
+}
+
+.inp-boxes-grid-container .inp-box textarea {
+    height: 200px;
+    padding: 10px;
+    border: none;
+    background: var(--productBoxBg);
+    resize: none;
+    outline: none;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.inp-boxes-grid-container .inp-box textarea.desc-feature-inp {
+    resize: vertical !important;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box {
+    background: var(--productBoxBg);
+    height: 200px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    transition: .5s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.inp-boxes-grid-container .inp-box .media-display {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.inp-boxes-grid-container .inp-box .media-display img {
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box.hide {
+    height: 0;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box .box-inner {
+    width: 100%;
+    height: 100%;
+    border: 3px dashed #e1e1e1;
+    transition: inherit;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box.dragover {
+    background: #00000015;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box.dragover .box-inner {
+    border: 3px dashed #9b9b9b;
+}
+
+.inp-boxes-grid-container .inp-box.media-drag-drop input {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box .mid-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: lighter;
+    text-align: center;
+}
+
+.inp-boxes-grid-container .inp-box input:not(input[type="checkbox"]),
+.inp-boxes-grid-container .inp-box .inp-box-inner {
+    height: 40px;
+    border: none;
+    outline: none;
+    background: var(--productBoxBg);
+    color: var(--text-color);
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 0 20px;
+}
+
+.inp-boxes-grid-container .inp-box select {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: none;
+    appearance: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: 13px;
+}
+
+.inp-box.balcony,
+.inp-box.parking,
+.inp-box.garage {
+    align-items: center;
+}
+
+.address-box {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 135px calc(78% - 485px) 22% 135px 135px;
+    column-gap: 20px;
+}
+
+.inp-boxes-grid-container .inp-box input:focus,
+.inp-boxes-grid-container .inp-box .desc-feature-inp:focus {
+    background: #F1F1F1;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box .mid-content .inn-media-inp {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    font-size: 14px;
+    cursor: pointer;
+    overflow: hidden;
+    text-decoration: underline;
+    text-align: center;
+    width: max-content;
+    margin: auto;
+}
+
+.inp-boxes-grid-container .inp-box .drag-drop-box .mid-content .inn-media-inp input[type='file'] {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+button.property-add-submit-btn {
+    width: clamp(80px, 70%, 300px);
+    margin: auto;
+    height: 38px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    background: var(--primaryColor);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-top: 20px;
+}
+
+
+/*      left menu css start from here       */
+
+.left-menu ul li {
+    padding: 13px 12px;
+    background: #ff6e6e;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    color: white;
+}
+
+.left-menu ul {
+    width: 100%;
+}
+
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .inp-box.bedrooms,
+    .inp-box.bathrooms {
+        width: 49% !important;
+    }
+    .checkboxesinpContainer {
+        width: 100% !important;
+    }
+    .address-box .inp-box.address1 {
+        grid-area: addr1;
+    }
+    .address-box .inp-box.address2 {
+        grid-area: addr2;
+    }
+    .address-box .inp-box.doornumber {
+        grid-area: doornumber;
+    }
+    .address-box .inp-box.city {
+        grid-area: city;
+    }
+    .address-box .inp-box.postcode {
+        grid-area: postcode;
+    }
+    .address-box {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 'addr1 addr1 addr1''addr2 addr2 postcode''doornumber city city';
+    }
+    .agent-info {
+        min-width: 80%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    header nav a {
+        display: initial !important;
+    }
+    .address-box {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'addr1 addr1''addr2 addr2''doornumber postcode''city city';
+    }
+    .inp-box.bedrooms,
+    .inp-box.bathrooms {
+        width: calc(50% - 10px) !important;
+    }
+    .agent-info {
+        min-width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    main {
+        padding: 30px 5%;
+    }
+    .address-box {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'addr1 addr1''addr2 addr2''doornumber doornumber''postcode postcode''city city';
+    }
+    .inp-boxes-grid-container .inp-box {
+        width: 100% !important;
+    }
+}
+
+/* ---------------- admin login ---------------- */
+
+.admin-login{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primaryColor);
+}
+
+.admin-login .login-inner{
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 3px 3px 10px #3333;
+}
+
+.admin-login .login-inner input, .admin-login .admin-login-btn{
+    height: 40px;
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.admin-login .admin-login-btn{
+    border: none;
+    background: var(--primaryColor);
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* ---------------- admin panel overview ---------------- */
+
+.overview-outer {
+    padding: 20px;
+    background: #f1f1f19f;
+    height: 100%;
+}
+
+.overview-outer .overview-first-row{
+    display: flex;
+    align-items: center;
+    gap: 20px
+}
+
+.overview-outer .overview-first-row .box{
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    flex-grow: 1;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.overview-outer .overview-first-row .box1x2{
+    flex-grow: 2;
+}
