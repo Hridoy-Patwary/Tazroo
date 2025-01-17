@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner';
 import { ReactComponent as CartIcon } from '../assets/icons/cart normal.svg';
@@ -22,84 +22,42 @@ export default function Product({ hdr }) {
     }
 
     // =================== EQUI js start =================== //
-    const viewableImgContainer = document.querySelector(".product-img-container-inner");
-    const drgblImgContainerInner = document.querySelector(".left-view-draggable-bar .draggable-img-container-inner");
-    const allImgViewBarBoxes = document.querySelectorAll(".left-view-draggable-bar .draggable-img");
-    const selectPrev = document.querySelector(".left-view-draggable-bar .view-select-arrow.scroll-top");
-    const selectNext = document.querySelector(".left-view-draggable-bar .view-select-arrow.scroll-bottom");
-    let sliderCount = 0,
-        selectBarBoxesSize = drgblImgContainerInner.offsetHeight / drgblImgContainerInner.childElementCount,
-        selectBarTransformPX = 0;
+    const viewableImgContainer = useRef(null);
+    const drgblImgContainerInner = useRef(null);
+    const leftViewDragableBar = useRef(null);
 
-    allImgViewBarBoxes.forEach((imgBox) => {
-        const selectBarImgSrc = imgBox.querySelector("img").src;
-        const newImgContainer = document.createElement("div");
-        const newProductImgMain = document.createElement("div");
-        newImgContainer.className = "img-container";
-        newProductImgMain.className = "product-img--main";
-        newProductImgMain.style.backgroundImage = `url(${selectBarImgSrc})`;
-        newImgContainer.appendChild(newProductImgMain);
-        viewableImgContainer.appendChild(newImgContainer);
-        //============================================
-        imgBox.addEventListener("click", () => {
-            if (!imgBox.classList.contains("selected")) {
-                sliderCount = [...allImgViewBarBoxes].indexOf(imgBox);
-                const beforeSelectedBox = document.querySelector(".left-view-draggable-bar .draggable-img.selected");
-                beforeSelectedBox.classList.remove("selected");
-                imgBox.classList.add("selected");
-                if (sliderCount > 2 && sliderCount !== drgblImgContainerInner.childElementCount - 1) {
-                    selectBarTransformPX = selectBarBoxesSize * (sliderCount - 2);
-                    selectBarTransform();
-                } else {
-                    selectBarTransformPX = 0;
-                }
-                viewerImgSlider();
-            }
-        })
-    });
+    let sliderCount = useRef(0), selectBarBoxesSize = drgblImgContainerInner.offsetHeight / drgblImgContainerInner.childElementCount, selectBarTransformPX = useRef(0);
+    
 
-    selectPrev.addEventListener("click", selectNextAndPrev);
-    selectNext.addEventListener("click", selectNextAndPrev);
 
-    function selectNextAndPrev() {
+    const selectNextAndPrev = (e) => {
         const beforeSelectedBox = document.querySelector(".left-view-draggable-bar .draggable-img.selected");
-        if (this.dataset.select === "prev" && beforeSelectedBox.previousElementSibling !== null) {
+        if (e.dataset.select === "prev" && beforeSelectedBox.previousElementSibling !== null) {
             beforeSelectedBox.classList.remove("selected");
             beforeSelectedBox.previousElementSibling.classList.add("selected");
             viewerImgSlider("prev");
-            if (sliderCount < (drgblImgContainerInner.childElementCount - 2)) {
-                selectBarTransformPX -= selectBarBoxesSize;
-                if (selectBarTransformPX < 0) {
-                    selectBarTransformPX = 0;
+            if (sliderCount.current < (drgblImgContainerInner.childElementCount - 2)) {
+                selectBarTransformPX.current -= selectBarBoxesSize;
+                if (selectBarTransformPX.current < 0) {
+                    selectBarTransformPX.current = 0;
                 }
                 selectBarTransform();
             }
-        } else if (this.dataset.select === "next" && beforeSelectedBox.nextElementSibling !== null) {
+        } else if (e.dataset.select === "next" && beforeSelectedBox.nextElementSibling !== null) {
             beforeSelectedBox.classList.remove("selected");
             beforeSelectedBox.nextElementSibling.classList.add("selected");
             viewerImgSlider("next");
-            if (sliderCount > 2 && sliderCount !== (drgblImgContainerInner.childElementCount - 1)) {
-                selectBarTransformPX += selectBarBoxesSize;
+            if (sliderCount.current > 2 && sliderCount.current !== (drgblImgContainerInner.childElementCount - 1)) {
+                selectBarTransformPX.current += selectBarBoxesSize;
                 selectBarTransform();
             }
         }
     }
 
     function selectBarTransform() {
-        drgblImgContainerInner.style.transform = `translate3d(0px, -${selectBarTransformPX}px, 0px)`;
+        drgblImgContainerInner.style.transform = `translate3d(0px, -${selectBarTransformPX.current}px, 0px)`;
     }
 
-    function viewerImgSlider(slide) {
-        if (slide === "prev") {
-            sliderCount--;
-            viewableImgContainer.style.transform = `translate3d(-${sliderCount}00%, 0px, 0px)`;
-        } else if (slide === "next") {
-            sliderCount++;
-            viewableImgContainer.style.transform = `translate3d(-${sliderCount}00%, 0px, 0px)`;
-        } else {
-            viewableImgContainer.style.transform = `translate3d(-${sliderCount}00%, 0px, 0px)`;
-        }
-    }
     const prImages = document.querySelectorAll(".product-img--main");
     prImages.forEach((productImage) => {
         productImage.addEventListener("mousemove", function(e) {
@@ -111,6 +69,23 @@ export default function Product({ hdr }) {
         })
     });
 
+    function viewerImgSlider(slide) {
+        if (!viewableImgContainer.current) {
+            console.log("viewableImgContainer is not defined");
+            return;
+        }
+
+        if (slide === "prev") {
+            sliderCount.current = sliderCount.current - 1;
+            viewableImgContainer.current.style.transform = `translate3d(-${sliderCount.current}00%, 0px, 0px)`;
+        } else if (slide === "next") {
+            sliderCount.current = sliderCount.current + 1;
+            viewableImgContainer.current.style.transform = `translate3d(-${sliderCount.current}00%, 0px, 0px)`;
+        } else {
+            viewableImgContainer.current.style.transform = `translate3d(-${sliderCount.current}00%, 0px, 0px)`;
+        }
+    }
+
     // =================== EQUI js end =================== //
 
     useEffect(() => {
@@ -120,8 +95,48 @@ export default function Product({ hdr }) {
                 .then((data) => setProduct(data))
                 .catch((error) => console.error('Error fetching product details:', error));
         }
+    }, [pid]);
+
+    useEffect(() => {
+        if (!product || !leftViewDragableBar.current || !drgblImgContainerInner.current) return;
+
+        const allImgViewBarBoxes = leftViewDragableBar.current.querySelectorAll(".draggable-img");
+        allImgViewBarBoxes.forEach((imgBox) => {
+            const selectBarImgSrc = imgBox.querySelector("img").src;
+            const newImgContainer = document.createElement("div");
+            const newProductImgMain = document.createElement("div");
+            newImgContainer.className = "img-container";
+            newProductImgMain.className = "product-img--main";
+            newProductImgMain.style.backgroundImage = `url(${selectBarImgSrc})`;
+            newImgContainer.appendChild(newProductImgMain);
+            viewableImgContainer.appendChild(newImgContainer);
+            //============================================
+            imgBox.addEventListener("click", () => {
+                if (!imgBox.classList.contains("selected")) {
+                    sliderCount.current = [...allImgViewBarBoxes].indexOf(imgBox);
+                    const beforeSelectedBox = document.querySelector(".left-view-draggable-bar .draggable-img.selected");
+                    beforeSelectedBox.classList.remove("selected");
+                    imgBox.classList.add("selected");
+                    if (sliderCount.current > 2 && sliderCount.current !== drgblImgContainerInner.childElementCount - 1) {
+                        selectBarTransformPX.current = selectBarBoxesSize * (sliderCount.current - 2);
+                        selectBarTransform();
+                    } else {
+                        selectBarTransformPX.current = 0;
+                    }
+
+                    viewerImgSlider();
+                }
+            })
+        });
+
+        
         hdr(true);
-    }, [pid, hdr]);
+        return () => {
+            allImgViewBarBoxes.forEach((imgBox) => {
+                imgBox.replaceWith(imgBox.cloneNode(true));
+            });
+        };
+    }, [product, hdr, selectBarBoxesSize])
 
     if (!product) {
         return <div className='product-loading'>
@@ -135,8 +150,8 @@ export default function Product({ hdr }) {
             </div>
             <div className="container">
                 <div className="product-img-viewer">
-                    <div className="left-view-draggable-bar">
-                        <button className="view-select-arrow scroll-top" data-select="prev">
+                    <div className="left-view-draggable-bar" ref={leftViewDragableBar}>
+                        <button className="view-select-arrow scroll-top" onClick={selectNextAndPrev} data-select="prev">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="1em"
@@ -156,6 +171,7 @@ export default function Product({ hdr }) {
                             <div
                                 className="draggable-img-container-inner"
                                 style={{ transform: "translate3d(0px, -257.5px, 0px)" }}
+                                ref={drgblImgContainerInner}
                             >
                                 <div className="draggable-img">
                                     <img src={product.thumbnail} alt="product" />
@@ -183,7 +199,7 @@ export default function Product({ hdr }) {
                                 </div>
                             </div>
                         </div>
-                        <button className="view-select-arrow scroll-bottom" data-select="next">
+                        <button className="view-select-arrow scroll-bottom" ref={selectNextAndPrev} data-select="next">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="1em"
@@ -204,6 +220,7 @@ export default function Product({ hdr }) {
                         <div
                             className="product-img-container-inner"
                             style={{ transform: "translate3d(-200%, 0px, 0px)" }}
+                            ref={viewableImgContainer}
                         >
                             <div className="img-container">
                                 <div

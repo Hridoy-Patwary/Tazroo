@@ -16,8 +16,10 @@ export default function Profile({ hdr }) {
     }
 
     useEffect(() => {
-        if(!localStorage.getItem('ud')) navigate('/account');
-        const data = JSON.parse(localStorage.getItem('ud'));
+        const udFromLocal = localStorage.getItem('ud');
+        if(udFromLocal === 'undefined' || !udFromLocal) navigate('/account');
+        
+        const data = JSON.parse(udFromLocal);
         setUserData({
             name: data.name,
             id: data.id,

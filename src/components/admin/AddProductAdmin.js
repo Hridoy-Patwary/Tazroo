@@ -1,47 +1,29 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 export default function AddProductAdmin() {
     const formRef = useRef();
+    const dragDropBox = useRef();
     const [files, setFiles] = useState(null);
-    let droppedFiles = {}
+    const [droppedFiles, setDroppedFiles] = useState({});
 
-    const swap = (node1, node2) => {
-        const afterNode2 = node2.nextElementSibling;
-        const parent = node2.parentNode;
-        node1.replaceWith(node2);
-        parent.insertBefore(node1, afterNode2);
-    }
-
-    const dropFile = (e) => {
-        e.preventDefault()
-        let indx = Array.prototype.indexOf.call(e.target.parentElement.children, e.target);
-        var data = e.dataTransfer.getData("indx");
-        try {
-            swap(e.target.parentElement.children[parseInt(data)], e.target.parentElement.children[indx])
-            var tmp = droppedFiles[e.target.closest('.inp-box').dataset.type][indx];
-            droppedFiles[e.target.closest('.inp-box').dataset.type][indx] = droppedFiles[e.target.closest('.inp-box').dataset.type][data];
-            droppedFiles[e.target.closest('.inp-box').dataset.type][data] = tmp;
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
+    // update filechangehandler to support with droppedFiles object otherwise server won't get the files
     const fileChangeHandler = (e) => {
         setFiles(e.target.files);
-    }
+    };
+
+    console.log(files);
+    
 
     const handleSubmit = async () => {
         const form = formRef.current;
         const formData = new FormData(form);
         
-        Array.from(files).forEach((file) => {
+        Array.from(droppedFiles['image']).forEach((file) => {
             formData.append('files', file);
         });
 
-        const obj = Object.fromEntries(formData);
-        
         try {
-            const res = await fetch('http://localhost:4000/api/v1/product', {
+            const res = await fetch(process.env.REACT_APP_API_URL+'/api/v1/product', {
                 method: 'post',
                 body: formData
             });
@@ -50,9 +32,81 @@ export default function AddProductAdmin() {
         } catch (error) {
             console.log(error)
         }
-
-        console.log(obj);
     }
+
+    const dragStartHandle = (e) => {
+        e.dataTransfer.setData(
+            "indx",
+            Array.prototype.indexOf.call(e.target.parentElement.children, e.target)
+        );
+    };
+
+    useEffect(() => {
+        const d = dragDropBox.current;
+
+        if (d) {
+            const handleDrop = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const dropType = d.parentElement.dataset.type;
+                const newFiles = Array.from(e.dataTransfer.files).filter((file) =>
+                    file.type.includes("image")
+                );
+
+                if (newFiles.length === 0) {
+                    alert("Please drop only images!");
+                    return;
+                }
+
+                setDroppedFiles((prev) => {
+                    const updatedFiles = { ...prev };
+                    if (!updatedFiles[dropType]) {
+                        updatedFiles[dropType] = [];
+                    }
+                    updatedFiles[dropType].push(...newFiles);
+                    return updatedFiles;
+                });
+
+                const displayContainer = d.parentElement.querySelector(".media-display");
+                newFiles.forEach((file) => {
+                    if (!displayContainer.querySelector(`[data-filename="${file.name}"]`)) {
+                        const newImgElm = document.createElement("img");
+                        newImgElm.draggable = true;
+                        newImgElm.ondragstart = dragStartHandle;
+                        newImgElm.id = Date.now();
+                        newImgElm.dataset.filename = file.name;
+                        newImgElm.src = URL.createObjectURL(file);
+                        displayContainer.append(newImgElm);
+                    }
+                });
+
+                d.classList.remove("dragover");
+            };
+
+            const handleDragOver = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                d.classList.add("dragover");
+            };
+
+            const handleDragLeave = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                d.classList.remove("dragover");
+            };
+
+            d.addEventListener("drop", handleDrop);
+            d.addEventListener("dragover", handleDragOver);
+            d.addEventListener("dragleave", handleDragLeave);
+
+            return () => {
+                d.removeEventListener("drop", handleDrop);
+                d.removeEventListener("dragover", handleDragOver);
+                d.removeEventListener("dragleave", handleDragLeave);
+            };
+        }
+    }, []);
     return (
         <div className='admin-panel-add-product'>
             <form method="post" action="" onSubmit={(e) => e.preventDefault()} data-logid="" className="main-container" ref={formRef}>
@@ -60,11 +114,15 @@ export default function AddProductAdmin() {
                     <div className="address-box">
                         <div className="inp-box pname">
                             <span>Product Name</span>
-                            <input type="text" name="pname" required="" />
+                            <input type="text" name="name" required="" />
                         </div>
                         <div className="inp-box modelname">
                             <span>Model Name</span>
-                            <input type="number" name="modelname" required="" />
+                            <input type="text" name="modelname" required="" />
+                        </div>
+                        <div className="inp-box brand">
+                            <span>Brand</span>
+                            <input type="text" name="brand" required="" />
                         </div>
                         <div className="inp-box dprice">
                             <span>Discount Price</span>
@@ -72,11 +130,7 @@ export default function AddProductAdmin() {
                         </div>
                         <div className="inp-box rprice">
                             <span>Regular Price</span>
-                            <input type="text" name="rprice" required="" />
-                        </div>
-                        <div className="inp-box brand">
-                            <span>Brand</span>
-                            <input type="text" name="brand" required="" />
+                            <input type="text" name="price" required="" />
                         </div>
                     </div>
                     <div className="inp-box size">
@@ -138,7 +192,7 @@ export default function AddProductAdmin() {
                         />
                     </div>
                     <div className="inp-box media-drag-drop" data-type="image" multiple="" accept="image/*" >
-                        <div className="drag-drop-box">
+                        <div className="drag-drop-box" ref={dragDropBox}>
                             <div className="box-inner">
                                 <div className="mid-content">
                                     <span>Drag And Drop here.</span>
@@ -151,9 +205,8 @@ export default function AddProductAdmin() {
                                 </div>
                             </div>
                         </div>
-                        <div className="media-display" onDrop={(e) => dropFile(e)} onDragOver={(e) => e.preventDefault()} />
+                        <div className="media-display" />
                     </div>
-                    <div className="agent-suggestions dflex" />
                     <button className="property-add-submit-btn" onClick={handleSubmit}>Submit</button>
                 </div>
             </form>

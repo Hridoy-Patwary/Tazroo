@@ -34,7 +34,7 @@ export default function AdminLogin({ hdr }) {
             username: usernameInp.current.value,
             pass: passwordInp.current.value
         };
-        fetch('http://localhost:4000/api/v1/admin/login', {
+        fetch(process.env.REACT_APP_API_URL+'/api/v1/admin/login', {
             method: 'POST',
             headers: {
                 "Content-type": 'application/json; charset=UTF-8'

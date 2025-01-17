@@ -10,9 +10,9 @@ import { useState } from 'react';
 import AdminLogin from './pages/AdminLogin';
 import Profile from './pages/Profile';
 
+
 function App() {
   const [header, setHeader] = useState(true);
-
 
   const setHeaderVisibility = (visible) => {
     setHeader(visible);

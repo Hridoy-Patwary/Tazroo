@@ -25,13 +25,13 @@ export default function User({ hdr }) {
         activeElmInBar.classList.remove('active');
         allInputs.forEach((inp) => inp.value = '');
 
-        if(sliderMainContainer.classList.contains('active')){
+        if (sliderMainContainer.classList.contains('active')) {
             allSignIn.forEach((elm) => elm.classList.remove('active'));
             allSignUp.forEach((elm) => elm.classList.add('active'));
             barInner.querySelector('.up').classList.add('active');
             barInner.classList.remove('in');
             barInner.classList.add('up');
-        }else{
+        } else {
             allSignIn.forEach((elm) => elm.classList.add('active'));
             allSignUp.forEach((elm) => elm.classList.remove('active'));
             barInner.querySelector('.in').classList.add('active');
@@ -51,13 +51,13 @@ export default function User({ hdr }) {
         const active = parent.querySelector('.active');
         const sliderContainer = document.querySelector('.slider-main-container');
 
-        if(btn.classList.contains('up')){
+        if (btn.classList.contains('up')) {
             parent.classList.remove('in');
             parent.classList.add('up');
             active.classList.remove('active');
             btn.classList.add('active');
             sliderContainer.classList.add('active');
-        }else{
+        } else {
             parent.classList.remove('up');
             parent.classList.add('in');
             active.classList.remove('active');
@@ -75,39 +75,62 @@ export default function User({ hdr }) {
     }
 
 
-    const signInHandler = async () => {
+    const signInHandler = async (e) => {
         try {
-            await fetch('http://localhost:4000/api/v1/user/login', {
-                method: 'post',
-                headers: {
-                    "Content-Type": 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then((res) => res.json()).then((data) => {
-                localStorage.setItem('ud', JSON.stringify(data.data));
-                navigate('/profile');
-            }).catch((err) => {
-                console.log(err);
-            })
+            const targetBtn = e.target;
+            targetBtn.classList.add('loading');
+
+            if(data.email === '' || data.password === ''){
+                setTimeout(() => {
+                    targetBtn.classList.remove('loading');
+                }, 1000);
+            }else{
+                await fetch(process.env.REACT_APP_API_URL + '/api/v1/user/login', {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then((res) => res.json()).then((data) => {
+                    localStorage.setItem('ud', JSON.stringify(data.data));
+                    
+                    setTimeout(() => {
+                        targetBtn.classList.remove('loading');
+                        targetBtn.classList.add('ready');
+                        navigate('/profile');
+                    }, 1000);
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
         } catch (error) {
             console.log(error);
         }
     }
 
-    const signUpHandler = async () => {
+    const signUpHandler = async (e) => {
         try {
-            await fetch('http://localhost:4000/api/v1/user/signup', {
-                method: 'post',
-                headers: {
-                    "Content-Type": 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then((res) => res.json()).then((data) => {
-                localStorage.setItem('ud', JSON.stringify(data.data));
-                navigate('/profile');
-            }).catch(err => {
-                console.log(err);
-            })
+            const targetBtn = e.target;
+            targetBtn.classList.add('loading');
+
+            if(data.email === '' || data.password === ''){
+                setTimeout(() => {
+                    targetBtn.classList.remove('loading');
+                }, 1000);
+            }else{
+                await fetch(process.env.REACT_APP_API_URL + '/api/v1/user/signup', {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then((res) => res.json()).then((data) => {
+                    localStorage.setItem('ud', JSON.stringify(data.data));
+                    navigate('/profile');
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
         } catch (error) {
             console.log(error);
         }
@@ -162,8 +185,8 @@ export default function User({ hdr }) {
                                 />
                                 <label htmlFor="remember">Remember this device</label>
                             </div>
-                            <div className="t-center">
-                                <button className="signin" onClick={signInHandler}>Sign In</button>
+                            <div className="t-center sign-btn-container">
+                                <button className="signin sign-anim-btn" onClick={signInHandler}>Sign In</button>
                             </div>
                             <p className="already-have-acc">
                                 <span>Don't have an account? </span>
@@ -249,8 +272,8 @@ export default function User({ hdr }) {
                                     name="cf-password"
                                 />
                             </div>
-                            <div className="t-center">
-                                <button className="signup" onClick={signUpHandler}>Sign Up</button>
+                            <div className="t-center sign-btn-container">
+                                <button className="signup sign-anim-btn" onClick={signUpHandler}>Sign Up</button>
                             </div>
                             <p className="already-have-acc">
                                 <span>Already have an account? </span>

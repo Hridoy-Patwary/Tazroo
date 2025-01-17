@@ -23,6 +23,7 @@ export default function Header() {
 
 
     const handleLanguage = (e) => {
+        console.log(search)
         const languageBtn = e.target;
         const langSelectParent = languageBtn.parentElement;
         const activeBtn = langSelectParent.querySelector('.active');
@@ -53,7 +54,7 @@ export default function Header() {
         let lastScrollY = window.scrollY; // Keep track of the last scroll position
         const handleResize = () => setWindowWidth(window.innerWidth);
 
-        if(localStorage.getItem('ud')) setPathLocation('/profile');
+        if (localStorage.getItem('ud')) setPathLocation('/profile');
 
         const handleScroll = () => {
             const headerOuter = document.querySelector(".header-outer");
@@ -100,6 +101,12 @@ export default function Header() {
                         <span className='active' onClick={handleLanguage} data-lang="en">EN</span>
                         <span className='unactive' onClick={handleLanguage} data-lang="bn">বাং</span>
                     </div>
+                    <Link to={'/'} className='header-button active' data-showmob="true">
+                        <span>
+                            <HomeIcon width={23} height={23} fill="rgb(166, 166, 166)" />
+                        </span>
+                        <span className='button-content-mob'>Home</span>
+                    </Link>
                     <div className="theme-toggle-btn header-button" onClick={toggleTheme}>
                         <ThemeToggleIcon />
                         <span className='button-content-mob'>Theme</span>
@@ -115,6 +122,24 @@ export default function Header() {
                         </span>
                         <span className='button-content-mob'>Account</span>
                     </Link>
+                    <Link to={'/privacy-policy'} className='header-button' data-showmob="true">
+                        <span>
+                            <UserIcon width={23} />
+                        </span>
+                        <span className='button-content-mob'>Privacy Policy</span>
+                    </Link>
+                    <Link to={'/feedback'} className='header-button' data-showmob="true">
+                        <span>
+                            <UserIcon width={23} />
+                        </span>
+                        <span className='button-content-mob'>Feedback</span>
+                    </Link>
+                    <Link to={'/contact-us'} className='header-button' data-showmob="true">
+                        <span>
+                            <UserIcon width={23} />
+                        </span>
+                        <span className='button-content-mob'>Chat with us</span>
+                    </Link>
                     <div className="header-menu" onClick={handleNavMenuClick}>
                         <input type="checkbox" />
                         <span></span>
@@ -122,32 +147,6 @@ export default function Header() {
                         <span></span>
                     </div>
                 </nav>
-                <div className="mobile-nav">
-                    <Link to={'/'}>
-                        <span>
-                            <HomeIcon fill="white" />
-                        </span>
-                        <span>Home</span>
-                    </Link>
-                    <Link to={'/featured'}>
-                        <span className='search-svg'>
-                            <SearchIcon />
-                        </span>
-                        <span>Search</span>
-                    </Link>
-                    <Link to={'/cart'}>
-                        <span>
-                            <CartIcon />
-                        </span>
-                        <span>Cart</span>
-                    </Link>
-                    <Link to={'/account'}>
-                        <span>
-                            <UserIcon />
-                        </span>
-                        <span>Account</span>
-                    </Link>
-                </div>
             </div>
         </div>
     );

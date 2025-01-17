@@ -95,6 +95,10 @@
     width: 100%;
 }
 
+.product-img-viewer button.view-select-arrow * {
+    pointer-events: none;
+}
+
 .product-img-viewer button.view-select-arrow.scroll-top {
     transform: rotate(180deg)
 }

@@ -3,10 +3,11 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: rgb(242, 246, 249);;
+    background: rgb(242, 246, 249);
+    ;
 }
 
-.account-outer-container{
+.account-outer-container {
     width: 90%;
     min-width: 500px;
     max-width: 1100px;
@@ -34,7 +35,7 @@
     z-index: 0;
 }
 
-.active-anim .slider-main-container::after{
+.active-anim .slider-main-container::after {
     transition: .3s ease-in-out;
 }
 
@@ -42,7 +43,7 @@
     left: 0%;
 }
 
-.logo-container{
+.logo-container {
     text-align: center;
     padding: 20px 0;
     display: block;
@@ -58,7 +59,7 @@
     min-height: 473px;
 }
 
-.content-container .content-box{
+.content-container .content-box {
     text-align: center;
 }
 
@@ -75,16 +76,18 @@
 }
 
 .active-anim .content-sign-in,
-.active-anim .content-sign-up{
+.active-anim .content-sign-up {
     transition: .3s ease-in-out;
 }
 
-.content-sign-in.active, .content-sign-up.active {
+.content-sign-in.active,
+.content-sign-up.active {
     opacity: 1;
     visibility: visible;
 }
 
-.content-sign-in .logo-container, .content-sign-up .logo-container{
+.content-sign-in .logo-container,
+.content-sign-up .logo-container {
     width: max-content;
     margin: auto;
 }
@@ -96,7 +99,7 @@
     align-items: center;
 }
 
-.remember-this-device{
+.remember-this-device {
     text-align: center;
     color: var(--secondaryTextColor);
     display: flex;
@@ -107,17 +110,17 @@
     margin: 15px auto 0 auto;
 }
 
-.remember-this-device input{
+.remember-this-device input {
     width: 15px;
     height: 15px;
     cursor: pointer;
 }
 
-.remember-this-device input[type=checkbox]{
+.remember-this-device input[type=checkbox] {
     accent-color: var(--primaryColor);
 }
 
-.remember-this-device label{
+.remember-this-device label {
     cursor: pointer;
     font-size: 14px;
 }
@@ -135,11 +138,16 @@
     background: none;
 }
 
-.inputs-container input:focus{
+.inputs-container input:focus {
     border: 1px solid var(--borderColor);
 }
 
-.signup, .signin {
+.sign-btn-container{
+    padding: 15px 0 12px 0;
+}
+
+.signup,
+.signin {
     width: 100px;
     height: 40px;
     background: var(--primaryColor);
@@ -148,50 +156,255 @@
     font-weight: bold;
     font-size: 16px;
     border-radius: 5px;
-    margin-top: 15px;
-    margin-bottom: 12px;
 }
 
-.content-box .sub-title{
+/* ---------------- sign in / log in button animation style start ---------------- */
+@keyframes button-loading {
+    20% {
+        color: transparent;
+        transform: scale(1, 1);
+    }
+
+    40% {
+        border-color: var(--primaryColor);
+        background-color: transparent;
+        transform: scale(1, 1);
+    }
+
+    60% {
+        transform: scale(0.7, 1.1);
+        margin-left: 1.25rem;
+        width: 2.5rem;
+        text-indent: -0.6125rem;
+        color: transparent;
+        border-color: var(--primaryColor);
+        background-color: var(--primaryColor);
+    }
+
+    80% {
+        transform: scale(1, 1);
+    }
+
+    100% {
+        margin-left: 1.25rem;
+        width: 2.5rem;
+        background-color: var(--primaryColor);
+        border-color: var(--primaryColor);
+        color: transparent;
+    }
+}
+
+@keyframes button-dot-intro {
+    0% {
+        opacity: 0;
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+
+    100% {
+        transform: scale(0.75, 0.75);
+    }
+}
+
+@keyframes button-dot-pulse {
+    0% {
+        opacity: 1;
+        transform: scale(0.75, 0.75);
+    }
+
+    15% {
+        transform: scale(0.85, 0.85);
+    }
+
+    45% {
+        transform: scale(0.75, 0.75);
+    }
+
+    55% {
+        transform: scale(0.95, 0.95);
+    }
+
+    85% {
+        transform: scale(0.75, 0.75);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(0.75, 0.75);
+    }
+}
+
+@keyframes button-ready {
+    0% {
+        margin-left: 1.25rem;
+        width: 2.5rem;
+    }
+
+    10% {
+        background-color: var(--primaryColor);
+        border-color: var(--primaryColor);
+    }
+
+    70% {
+        margin: 0;
+        width: 7.25rem;
+        background-color: #fff;
+        transform: scale(1.1, 1.1);
+    }
+
+    100% {
+        margin: 0;
+        width: 7rem;
+        border-color: #8cce1e;
+        background-color: #fff;
+    }
+}
+
+@keyframes button-dot-outro {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes button-ready-label {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.sign-anim-btn {
+    position: relative;
+    overflow: hidden;
+    width: 7rem;
+    color: white;
+    border: 2px solid var(--primaryColor);
+    cursor: pointer;
+    line-height: 2;
+    padding: 0;
+    border-radius: 1.5rem;
+    font-size: 1.125rem;
+    text-transform: lowercase;
+    outline: none;
+    transition: transform 0.125s;
+}
+
+.sign-anim-btn:active {
+    transform: scale(0.9, 0.9);
+}
+
+.sign-anim-btn:before,
+.sign-anim-btn:after {
+    position: absolute;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: #fff;
+    top: 50%;
+    left: 50%;
+    margin-top: -1.125rem;
+    margin-left: -1.125rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    content: "";
+    z-index: 1;
+}
+
+.sign-anim-btn.loading {
+    animation: button-loading 0.5s forwards;
+}
+
+.sign-anim-btn.loading:before {
+    opacity: 1;
+    animation: button-dot-intro 0.5s forwards;
+}
+
+.sign-anim-btn.loading:after {
+    opacity: 0;
+    animation: button-dot-pulse 1.5s infinite 0.5s;
+}
+
+.sign-anim-btn.ready {
+    text-indent: 0;
+    color: transparent;
+    background-color: var(--primaryColor);
+    animation: button-ready 0.333s forwards;
+}
+
+.sign-anim-btn.ready:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background-color: transparent;
+    color: #8cce1e;
+    content: "ready";
+    opacity: 0;
+    z-index: 2;
+    animation: button-ready-label 0.5s forwards 0.275s;
+}
+
+.sign-anim-btn.ready:after {
+    opacity: 1;
+    animation: button-dot-outro 0.333s;
+}
+
+/* ---------------- sign in / log in button animation style end ---------------- */
+
+.content-box .sub-title {
     color: rgb(50, 50, 50);
     margin-top: 6px;
     margin-bottom: 7px;
     font-weight: bold;
 }
 
-.content-box .desc p{
+.content-box .desc p {
     color: #2e2e2e;
 }
 
-.content-box .desc p:not(:first-child){
+.content-box .desc p:not(:first-child) {
     color: rgb(92, 92, 92)
 }
 
-.content-box .desc p:not(:last-child){
+.content-box .desc p:not(:last-child) {
     margin-bottom: 10px;
 }
 
-.already-have-acc{
+.already-have-acc {
     color: var(--secondaryTextColor);
     text-align: center;
     margin-bottom: 5px;
     font-size: 15px;
 }
 
-.already-have-acc span:last-child{
+.already-have-acc span:last-child {
     display: inline-block;
     cursor: pointer;
     color: var(--primaryColor);
     font-weight: 600;
 }
 
-.social-login-container .social-login-title{
+.social-login-container .social-login-title {
     color: var(--secondaryTextColor);
     font-size: 15px;
     margin-bottom: 8px;
 }
 
-.social-login{
+.social-login {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,7 +414,7 @@
     padding: 0 0 30px 0;
 }
 
-.social-login .login-with{
+.social-login .login-with {
     padding: 4px;
     border: 1px solid var(--borderColor);
     border-radius: 5px;
@@ -214,16 +427,17 @@
 
 /* ---------------- responsive ---------------- */
 
-.account-outer-container .sign-in-or-sign-up-outer, .outer-logo-container{
+.account-outer-container .sign-in-or-sign-up-outer,
+.outer-logo-container {
     display: none;
 }
 
-@media only screen and (max-width: 768px){
-    .account-user-container{
+@media only screen and (max-width: 768px) {
+    .account-user-container {
         background: var(--primaryColor);
     }
-    
-    .outer-logo-container{
+
+    .outer-logo-container {
         display: block;
         position: fixed;
         top: 20px;
@@ -231,13 +445,13 @@
         transform: translateX(-50%);
     }
 
-    .nav-theme-ico{
+    .nav-theme-ico {
         position: absolute;
         top: 29px;
         right: 33px
     }
 
-    .account-outer-container{
+    .account-outer-container {
         width: 100%;
         min-width: 100%;
         max-width: 100%;
@@ -251,7 +465,7 @@
         border-bottom-right-radius: 0;
     }
 
-    .account-outer-container .sign-in-or-sign-up-outer{
+    .account-outer-container .sign-in-or-sign-up-outer {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -260,16 +474,16 @@
         padding-bottom: 15px;
     }
 
-    .account-outer-container .sign-up-or-sign-in{
+    .account-outer-container .sign-up-or-sign-in {
         display: grid;
         grid-template-columns: 1fr 1fr;
         width: max-content;
-        border-radius: 3px;
+        border-radius: 100px;
         overflow: hidden;
         position: relative;
     }
 
-    .account-outer-container .sign-up-or-sign-in div{
+    .account-outer-container .sign-up-or-sign-in div {
         background: rgba(165, 165, 165, 0.16);
         padding: 7px 10px;
         position: relative;
@@ -280,18 +494,27 @@
         color: black;
     }
     
-    .active-anim .sign-up-or-sign-in::after{
+    .account-outer-container .sign-up-or-sign-in .up{
+        padding-left: 15px;
+    }
+
+    .account-outer-container .sign-up-or-sign-in .in{
+        padding-right: 15px;
+    }
+
+    .active-anim .sign-up-or-sign-in::after {
         transition: .3s ease-in-out;
     }
-    .active-anim .sign-up-or-sign-in div{
+
+    .active-anim .sign-up-or-sign-in div {
         transition: 300ms ease;
     }
 
-    .account-outer-container .sign-up-or-sign-in .active{
+    .account-outer-container .sign-up-or-sign-in .active {
         color: white;
     }
 
-    .account-outer-container .sign-up-or-sign-in::after{
+    .account-outer-container .sign-up-or-sign-in::after {
         content: "";
         width: 50%;
         height: 100%;
@@ -303,11 +526,11 @@
     }
 
 
-    .account-outer-container .sign-up-or-sign-in.in::after{
+    .account-outer-container .sign-up-or-sign-in.in::after {
         left: 50%;
     }
 
-    .slider-main-container{
+    .slider-main-container {
         min-width: 200%;
         border-radius: 0;
         box-shadow: none;
@@ -315,60 +538,62 @@
         position: initial;
         transform: translateX(0%);
     }
-    
-    .active-anim .slider-main-container{
+
+    .active-anim .slider-main-container {
         transition: .3s ease-in-out;
     }
 
-    .slider-main-container.active{
+    .slider-main-container.active {
         transform: translateX(-50%);
     }
 
-    .slider-main-container .content-container{
+    .slider-main-container .content-container {
         width: 100%;
         padding-top: 15px;
     }
 
-    .content-sign-in, .content-sign-up{
+    .content-sign-in,
+    .content-sign-up {
         position: initial;
         opacity: 1;
         visibility: visible;
         width: 100%;
     }
 
-    .slider-main-container::after, .content-box{
+    .slider-main-container::after,
+    .content-box {
         display: none;
     }
 
-    .inputs-container input{
+    .inputs-container input {
         width: 90%;
         max-width: 320px;
     }
 
-    .social-login{
+    .social-login {
         padding-bottom: 0;
     }
 }
 
-@media only screen and (min-height: 520px) and (max-height: 1100px) and (max-width: 768px){
-    .account-outer-container{
+@media only screen and (min-height: 520px) and (max-height: 1100px) and (max-width: 768px) {
+    .account-outer-container {
         padding: 15px 0;
     }
 }
 
-@media only screen and (max-height: 500px) and (max-width: 768px){
-    body{
+@media only screen and (max-height: 500px) and (max-width: 768px) {
+    body {
         background: white;
         overflow-y: auto;
     }
 
-    .account-outer-container{
+    .account-outer-container {
         position: initial;
         border-radius: 0;
         box-shadow: none;
     }
 
-    .outer-logo-container{
+    .outer-logo-container {
         display: none;
     }
 }
