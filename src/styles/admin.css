@@ -264,20 +264,46 @@
     cursor: pointer;
 }
 
-button.property-add-submit-btn {
-    width: clamp(80px, 70%, 300px);
-    margin: auto;
-    height: 38px;
-    border-radius: 4px;
-    text-transform: uppercase;
+.show-loading-win{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #050505b3;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s ease-in-out;
+}
+
+.show-loading-win.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-win-please-wait{
+    position: absolute;
+    top: calc(50% + 65px);
+    left: calc(50% + 24px);
+    z-index: 999;
+    transform: translate(-50%, -50%);
+}
+
+.add-product-submit-btn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.property-add-submit-btn {
     background: var(--primaryColor);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    margin-top: 20px;
+}
+
+.property-add-submit-btn::after,
+.property-add-submit-btn::before{
+    background: var(--background-color);
 }
 
 

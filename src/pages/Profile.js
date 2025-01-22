@@ -32,7 +32,7 @@ export default function Profile({ hdr }) {
         <div className='profile-container'>
             <div className="container">
                 <div className="profile-hero-area">
-                    <h3>{userData.name}</h3>
+                    <h3>Welcome back {userData.name.split(' ')[0]}!</h3>
                     <p>{userData.email}</p>
                     <p><small>{userData.id}</small></p>
                     <button className='log-out-btn' onClick={logOutHandler}>Log Out</button>

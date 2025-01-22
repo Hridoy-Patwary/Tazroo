@@ -5,6 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 999;
+    box-shadow: 0 10px 10px var(--headerShadowColor);
 }
 
 .header-outer .container {
@@ -55,6 +56,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.header-outer nav .mob-menu-bg{
+    display: none;
 }
 
 .header-outer nav .button-content-mob {
@@ -211,15 +216,50 @@
         padding: 5px 0;
         padding-bottom: 15px;
         border-bottom: none;
-        height: 70px;
+        height: 57px;
         display: flex;
+        background: none;
         align-items: flex-end;
         justify-content: center;
         transition: .3s ease;
+        box-shadow: none;
     }
 
     .header-outer .container {
         margin: 0 0 0 0;
+    }
+    
+    .header-outer nav {
+        flex-direction: column;
+        width: 165px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        background: #333333ee;
+        color: white;
+        transition: .3s;
+        padding: 70px 15px 0 15px;
+    }
+
+    .header-outer .container nav .mob-menu-bg{
+        content: "";
+        width: 100vw;
+        height: 100vh;
+        display: block;
+        background: #333333a9;
+        position: fixed;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: inherit;
+        z-index: -1;
+    }
+
+    .header-outer.active .container nav .mob-menu-bg{
+        opacity: 1;
+        visibility: visible;
     }
 
     .header-outer .container nav::after {
@@ -234,6 +274,7 @@
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         z-index: 0;
+        box-shadow: 0 10px 10px var(--headerShadowColor);
     }
 
     .header-logo-container {
@@ -248,17 +289,17 @@
         width: 90px;
     }
 
-    nav {
+    .mob-bottom-menus{
+        display: flex;
         flex-direction: column;
-        width: 165px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: -100%;
-        background: #333333ee;
-        color: white;
-        transition: .3s;
-        padding: 70px 15px 0 15px;
+        gap: inherit;
+        position: absolute;
+        bottom: 60px;
+        left: 0;
+        padding-top: 15px;
+        padding-left: inherit;
+        padding-right: inherit;
+        border-top: 2px solid rgb(104, 104, 104);
     }
 
     .header-search{
@@ -287,6 +328,7 @@
         border: 1px solid #a4a4a4ac;
         border-radius: 5px;
         width: 100%;
+        text-transform: capitalize;
         transition: .3s ease-in-out;
     }
 

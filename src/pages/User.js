@@ -98,7 +98,7 @@ export default function User({ hdr }) {
                         targetBtn.classList.remove('loading');
                         targetBtn.classList.add('ready');
                         navigate('/profile');
-                    }, 1000);
+                    }, 500);
                 }).catch((err) => {
                     console.log(err);
                 })
@@ -144,8 +144,8 @@ export default function User({ hdr }) {
             <div className="account-outer-container active-anim">
                 <div className="sign-in-or-sign-up-outer">
                     <div className="sign-up-or-sign-in u_select_none in">
-                        <div className="up" onClick={signBtnHandler}>Sign Up</div>
-                        <div className="in active" onClick={signBtnHandler}>Sign In</div>
+                        <div className="up u_sel_none" onClick={signBtnHandler}>Sign Up</div>
+                        <div className="in active u_sel_none" onClick={signBtnHandler}>Sign In</div>
                     </div>
                 </div>
                 <div className="slider-main-container">
@@ -177,12 +177,7 @@ export default function User({ hdr }) {
                                 <input type="password" placeholder="Password" name="password" onChange={handleInputs} />
                             </div>
                             <div className="remember-this-device">
-                                <input
-                                    type="checkbox"
-                                    id="remember"
-                                    name="remember"
-                                    defaultValue=""
-                                />
+                                <input type="checkbox" id="remember" name="remember" defaultValue="" />
                                 <label htmlFor="remember">Remember this device</label>
                             </div>
                             <div className="t-center sign-btn-container">
@@ -263,21 +258,17 @@ export default function User({ hdr }) {
                                 <img src={Logo} width={110} alt="logo" />
                             </Link>
                             <div className="inputs-container">
-                                <input type="text" placeholder="Name" name="name" onChange={handleInputs} />
+                                <input type="text" placeholder="Full Name" name="name" onChange={handleInputs} />
                                 <input type="email" placeholder="Email" name="email" onChange={handleInputs} />
                                 <input type="password" placeholder="Password" name="password" onChange={handleInputs} />
-                                <input
-                                    type="password"
-                                    placeholder="Confirm password"
-                                    name="cf-password"
-                                />
+                                <input type="password" placeholder="Confirm password" name="cf-password" />
                             </div>
                             <div className="t-center sign-btn-container">
                                 <button className="signup sign-anim-btn" onClick={signUpHandler}>Sign Up</button>
                             </div>
                             <p className="already-have-acc">
                                 <span>Already have an account? </span>
-                                <span onClick={alreadyHaveAccHandler}>Log In</span>
+                                <span onClick={alreadyHaveAccHandler}>Sign In</span>
                             </p>
                             <div className="social-login-container t-center">
                                 <p className="social-login-title">Continue with socials</p>
@@ -359,7 +350,6 @@ export default function User({ hdr }) {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

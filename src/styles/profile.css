@@ -10,7 +10,7 @@
 }
 
 .profile-container .profile-hero-area small{
-    color: var(--secondaryTextColor);
+    color: var(--tertiaryTextColor);
 }
 
 .profile-container .log-out-btn{

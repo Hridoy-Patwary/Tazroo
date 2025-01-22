@@ -8,16 +8,23 @@
     --primaryColor: #2ab873;
     --background-color: #fff;
     --text-color: #000;
-    --secondaryTextColor: #999;
+    --secondaryTextColor: #4d4d4d;
+    --tertiaryTextColor: #bdbdbd;
     --borderColor: #3331;
     --productBoxBg: #3331;
+    --slightTransparentBg: rgba(69, 69, 69, 0.067);
+    --headerShadowColor: #33333325;
 }
 
 [theme='dark']:root {
-    --background-color: #141414;
+    --background-color: #1d1d1d;
     --text-color: #fff;
+    --secondaryTextColor: #e2e2e2;
+    --tertiaryTextColor: #696969;
     --borderColor: #c6c6c632;
     --productBoxBg: #c6c6c632;
+    --slightTransparentBg: #c6c6c613;
+    --headerShadowColor: #0000003d;
 }
 
 body {
@@ -61,6 +68,14 @@ button {
     text-align: center;
 }
 
+.secondary-color{
+    color: var(--secondaryTextColor)
+}
+
+.tertiary-color{
+    color: var(--tertiaryTextColor);
+}
+
 /* ---------------- loading spinner ---------------- */
 .loader {
     width: 48px;
@@ -88,8 +103,20 @@ button {
 }
 
 /* ---------------- responsive ---------------- */
+@media only screen and (max-width: 1200px){
+    .container{
+        width: 85%;
+    }
+}
+
+@media only screen and (max-width: 992px){
+    .container{
+        width: 88%;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .container {
-        width: 92%;
+        width: 95%;
     }
 }

@@ -3,13 +3,36 @@
 }
 
 .footer-container .footer-main{
-    padding: 10px 0;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-main .footer-column ul{
+    list-style: none;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 7px;
 }
 
 .footer-container .footer-bottom{
     text-align: center;
     font-size: 15px;
     padding: 5px;
-    background: var(--productBoxBg);
-    color: var(--secondaryTextColor);
+    background: var(--slightTransparentBg);
+    color: var(--tertiaryTextColor);
+}
+
+/* ---------------- responsive ---------------- */
+@media only screen and (max-width: 768px){
+    .footer-container .footer-main{
+        flex-direction: column;
+        gap: 25px
+    }
+
+    .footer-container .footer-main .footer-column{
+        width: max-content;
+    }
 }

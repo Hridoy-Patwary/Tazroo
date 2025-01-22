@@ -1,20 +1,107 @@
 .cart-heading{
     text-align: center;
-    padding: 20px 0;
+    padding: 30px 0 20px 0;
 }
 
-.cart-list-heading{
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 150px 150px 150px;
-    font-weight: 600;
+.cart-list-container{
+    padding-bottom: 20px;
+}
+
+.cart-list-container .cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .cart-list .cart-item{
     display: grid;
-    grid-template-columns: 1fr 150px 150px 150px;
+    grid-template-columns: 1fr auto;
+    background: var(--slightTransparentBg);
+    border-radius: 5px;
+    align-items: center;
+    padding: 0 20px;
 }
 
 .cart-list .item-img-and-details{
     display: flex;
+    gap: 10px;
+}
+
+.cart-list .item-small-details{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-list .details{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px
+}
+
+.cart-list .details small{
+    color: var(--tertiaryTextColor);
+}
+
+.cart-list .cart-item .price{
+    color: var(--tertiaryTextColor);
+}
+
+.cart-list .cart-item .price-total{
+    font-weight: 600;
+}
+
+.cart-list .cart-item .quantity {
+    width: 90px;
+    height: max-content;
+    display: flex;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 1px solid var(--borderColor);
+}
+
+.cart-list .cart-item .quantity input{
+    min-height: 100%;
+    border: none;
+    width: 100%;
+    background: none;
+    font-size: 16px;
+    text-align: center;
+    -moz-appearance: none;
+}
+
+.cart-list .cart-item .quantity input::-webkit-outer-spin-button,
+.cart-list .cart-item .quantity input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+}
+
+.cart-list .cart-item .quantity button{
+    background: none;
+    border: none;
+    font-size: 17px;
+    line-height: 17px;
+    padding: 4px 10px;
+}
+
+.cart-list .cart-item .cart-delete-item{
+    background: none;
+    border: none;
+}
+
+.cart-list .cart-item .cart-delete-item svg path{
+    stroke: rgb(166, 166, 166);
+    transition: .3s ease-in-out;
+}
+
+.cart-list .cart-item .cart-delete-item:hover svg path{
+    stroke: red;
+}
+
+/* ---------------- responsive ---------------- */
+@media only screen and (max-width: 768px){
+    .cart-list .cart-item, .cart-list-heading{
+        grid-template-columns: 1fr 50px 76px 80px;
+    }
 }

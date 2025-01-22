@@ -1,34 +1,68 @@
 import React, { useEffect, useRef, useState } from 'react'
+import '../../styles/account.css'
 
 export default function AddProductAdmin() {
     const formRef = useRef();
     const dragDropBox = useRef();
-    const [files, setFiles] = useState(null);
+    const loadingWin = useRef();
     const [droppedFiles, setDroppedFiles] = useState({});
 
-    // update filechangehandler to support with droppedFiles object otherwise server won't get the files
     const fileChangeHandler = (e) => {
-        setFiles(e.target.files);
+        const dropType = e.target.closest('.media-drag-drop').dataset.type;
+        const newFiles = Array.from(e.target.files).filter((file) =>
+            file.type.includes("image")
+        );
+
+        setDroppedFiles((prev) => {
+            const updatedFiles = { ...prev };
+            if (!updatedFiles[dropType]) {
+                updatedFiles[dropType] = [];
+            }
+            updatedFiles[dropType].push(...newFiles);
+            return updatedFiles;
+        });
+
+        const displayContainer = e.target.closest('.media-drag-drop').querySelector(".media-display");
+        newFiles.forEach((file) => {
+            if (!displayContainer.querySelector(`[data-filename="${file.name}"]`)) {
+                const newImgElm = document.createElement("img");
+                newImgElm.draggable = true;
+                newImgElm.ondragstart = dragStartHandle;
+                newImgElm.dataset.filename = file.name;
+                newImgElm.src = URL.createObjectURL(file);
+                displayContainer.append(newImgElm);
+            }
+        });
     };
 
-    console.log(files);
-    
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        const target = e.target;
         const form = formRef.current;
         const formData = new FormData(form);
-        
+
+        target.classList.add('loading');
+        loadingWin.current.classList.add('active');
+        loadingWin.current.children[0].classList.add('loader');
+
         Array.from(droppedFiles['image']).forEach((file) => {
             formData.append('files', file);
         });
 
         try {
-            const res = await fetch(process.env.REACT_APP_API_URL+'/api/v1/product', {
+            await fetch(process.env.REACT_APP_API_URL+'/api/v1/product', {
                 method: 'post',
                 body: formData
-            });
-
-            console.log(res);
+            }).then((res) => res.json()).then((data) => {
+                console.log(data);
+                target.classList.remove('loading');
+                loadingWin.current.classList.remove('active');
+                loadingWin.current.children[0].classList.remove('loader');
+                formRef.current.reset();
+                setDroppedFiles({});
+            }).catch((err) => {
+                console.log(err);
+            })
         } catch (error) {
             console.log(error)
         }
@@ -109,16 +143,20 @@ export default function AddProductAdmin() {
     }, []);
     return (
         <div className='admin-panel-add-product'>
+            <div className="show-loading-win" ref={loadingWin}>
+                <span></span>
+                <span className='loading-win-please-wait'>Please wait...</span>
+            </div>
             <form method="post" action="" onSubmit={(e) => e.preventDefault()} data-logid="" className="main-container" ref={formRef}>
                 <div className="inp-boxes-grid-container">
                     <div className="address-box">
-                        <div className="inp-box pname">
-                            <span>Product Name</span>
-                            <input type="text" name="name" required="" />
-                        </div>
                         <div className="inp-box modelname">
                             <span>Model Name</span>
                             <input type="text" name="modelname" required="" />
+                        </div>
+                        <div className="inp-box pname">
+                            <span>Product Name</span>
+                            <input type="text" name="name" required="" />
                         </div>
                         <div className="inp-box brand">
                             <span>Brand</span>
@@ -145,8 +183,8 @@ export default function AddProductAdmin() {
                         <span>Stock Status</span>
                         <div className="inp-box-inner">
                             <select name="stock">
-                                <option value="residential">In Stock</option>
-                                <option value="commercial">Out Of Stock</option>
+                                <option value="in">In Stock</option>
+                                <option value="out">Out Of Stock</option>
                             </select>
                         </div>
                     </div>
@@ -155,8 +193,8 @@ export default function AddProductAdmin() {
                         <div className="inp-box-inner">
                             <select name="category">
                                 <option value="it">IT Accessories</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="cloathing">Cloathing</option>
+                                <option value="elc">Electronics</option>
+                                <option value="clo">Cloathing</option>
                             </select>
                         </div>
                     </div>
@@ -179,7 +217,7 @@ export default function AddProductAdmin() {
                                 <option value="6mnth">6 Months</option>
                                 <option value="1yr">1 Year</option>
                                 <option value="2yr">2 Years</option>
-                                <option value="3yrs">3 Years</option>
+                                <option value="3yr">3 Years</option>
                             </select>
                         </div>
                     </div>
@@ -207,7 +245,9 @@ export default function AddProductAdmin() {
                         </div>
                         <div className="media-display" />
                     </div>
-                    <button className="property-add-submit-btn" onClick={handleSubmit}>Submit</button>
+                    <div className="add-product-submit-btn">
+                        <button className="property-add-submit-btn sign-anim-btn" onClick={handleSubmit}>Submit</button>
+                    </div>
                 </div>
             </form>
         </div>

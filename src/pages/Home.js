@@ -48,7 +48,7 @@ export default function Home({ hdr }) {
                     <div className="category-bar">
                         <div className="content">
                             <h3>Featured categories</h3>
-                            <p>Get Your Product from our Featured Category!</p>
+                            <p className='tertiary-color'>Get Your Product from our Featured Category!</p>
                         </div>
                         <div className="category-list">
                             {categoryList.map((category, i) => (
