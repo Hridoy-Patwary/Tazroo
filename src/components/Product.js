@@ -7,7 +7,7 @@ export default function Product(props) {
 
     useEffect(() => {
         const img = new Image();
-        const src = process.env.REACT_APP_API_URL + '/' + props.data.images[0].filePath;
+        const src = props.data.images ? process.env.REACT_APP_API_URL + '/' + props.data.images[0].filePath : '';
 
         img.onload = () => {
             console.log('Image loaded, applying artificial delay');
@@ -26,7 +26,7 @@ export default function Product(props) {
     }, [props.data.images]);
 
     return (
-        <Link to={`/product?id=${props.data.id}`} data-pid={props.data.id} className={`product-box${imageLoaded ? '' : ' loading-product-image'}`}>
+        <Link to={`/product/${props.data.id}`} data-pid={props.data.id} className={`product-box${imageLoaded ? '' : ' loading-product-image'}`}>
             <div className="product-img-container">
                 {imageLoaded ? <img 
                         src={imageSrc} 

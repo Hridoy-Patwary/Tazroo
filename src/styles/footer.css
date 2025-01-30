@@ -8,6 +8,10 @@
     justify-content: space-between;
 }
 
+.footer-main .footer-column h3{
+    color: var(--secondaryTextColor);
+}
+
 .footer-main .footer-column ul{
     list-style: none;
     padding-left: 10px;
@@ -15,6 +19,15 @@
     flex-direction: column;
     gap: 5px;
     margin-top: 7px;
+}
+
+.footer-main .footer-column ul li{
+    color: var(--tertiaryTextColor);
+    transition: .2s ease-in-out;
+}
+
+.footer-main .footer-column ul li:hover{
+    color: var(--secondaryTextColor);
 }
 
 .footer-container .footer-bottom{
@@ -29,7 +42,7 @@
 @media only screen and (max-width: 768px){
     .footer-container .footer-main{
         flex-direction: column;
-        gap: 25px
+        gap: 25px;
     }
 
     .footer-container .footer-main .footer-column{

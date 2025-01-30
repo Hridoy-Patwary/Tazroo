@@ -1,15 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner';
 import Footer from '../components/Footer'
 import { ReactComponent as CartIcon } from '../assets/icons/cart normal.svg';
+import { ReactComponent as CartPageIcon } from '../assets/icons/cart.svg';
+import { ReactComponent as ShareIcon } from '../assets/icons/share.svg';
 import '../styles/products.css'
+import Products from '../components/Products';
 
-export default function Product({ hdr }) {
+export default function Product({ hdr, prList }) {
+    const { id } = useParams();
+    const descRef = useRef(null);
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const pid = queryParams.get('id');
+    const navigation = useNavigate();
     const [product, setProduct] = useState(null);
+    const [truncatedText, setTruncatedText] = useState('');
+    const pathnames = location.pathname.split('/').filter(x => x);
+
     const warrantyMapping = {
         'sd': 'Same Day',
         '3mnth': '3 Months',
@@ -29,11 +36,12 @@ export default function Product({ hdr }) {
         const id = e.target.closest('.product-detail').dataset.id;
         const cartItems = JSON.parse(localStorage.getItem('cart'));
         const itemsJSON = cartItems ? cartItems : [];
+        const found = itemsJSON.findIndex((item) => item.id === id);
         const updatedItems = itemsJSON.map(item =>
             item.id === id ? { ...item, quantity: item.quantity ? (parseInt(item.quantity) + 1) : 1 } : item
         );
 
-        if (updatedItems.length === 0) {
+        if (found === -1) {
             product.quantity = 1;
             itemsJSON.push(product);
             localStorage.setItem('cart', JSON.stringify(itemsJSON));
@@ -84,6 +92,7 @@ export default function Product({ hdr }) {
 
     const prImages = document.querySelectorAll(".product-img--main");
     prImages.forEach((productImage) => {
+        if (window.innerWidth < 768) return;
         productImage.addEventListener("mousemove", function (e) {
             const XY = {
                 x: ((e.pageX - viewableImgContainer.current.offsetLeft) / this.offsetWidth) * 100,
@@ -92,6 +101,10 @@ export default function Product({ hdr }) {
             productImage.style.transformOrigin = XY.x + "%" + XY.y + "%";
         })
     });
+
+    const gotoCartPage = () => {
+        navigation('/cart');
+    }
 
     const viewerImgSlider = (slide) => {
         if (!viewableImgContainer.current) {
@@ -114,21 +127,41 @@ export default function Product({ hdr }) {
         console.log('helo');
     }
 
-    // =================== EQUI js end =================== //
+    const seeMoreHandler = (e) => {
+        const tr = e.target;
+        descRef.current.classList.toggle('hide');
+
+        if (descRef.current.classList.contains('hide')) {
+            const parent = descRef.current.querySelector('p');
+            descRef.current.style.height = parent.clientHeight + 'px';
+            tr.innerHTML = 'See less...';
+        } else {
+            const parent = descRef.current.querySelector('p');
+            const computedStyle = window.getComputedStyle(parent);
+            const lineHeight = computedStyle.lineHeight;
+            descRef.current.style.height = parseInt(lineHeight) * 4 + 'px';
+            tr.innerHTML = 'See more...';
+        }
+    }
+
+    const shareBtnClickHandler = () => {
+        alert('this product will be able to view from a link');
+    }
+
 
     useEffect(() => {
-        if (pid) {
+        if (id) {
             fetch(process.env.REACT_APP_API_URL + '/api/v1/product/details', {
                 method: 'post',
                 headers: {
                     "Content-Type": 'application/json'
                 },
-                body: JSON.stringify({ id: pid })
+                body: JSON.stringify({ id: id })
             }).then((response) => response.json())
                 .then((data) => setProduct(data))
                 .catch((error) => console.error('Error fetching product details:', error));
         }
-    }, [pid]);
+    }, [id]);
 
     useEffect(() => {
         if (!product || !leftViewDragableBar.current || !drgblImgContainerInner.current) return;
@@ -136,15 +169,6 @@ export default function Product({ hdr }) {
         const allImgViewBarBoxes = leftViewDragableBar.current.querySelectorAll(".draggable-img");
 
         allImgViewBarBoxes.forEach((imgBox) => {
-            const selectBarImgSrc = imgBox.querySelector("img").src;
-            const newImgContainer = document.createElement("div");
-            const newProductImgMain = document.createElement("div");
-            newImgContainer.className = "img-container";
-            newProductImgMain.className = "product-img--main";
-            newProductImgMain.style.backgroundImage = `url(${selectBarImgSrc})`;
-            newImgContainer.appendChild(newProductImgMain);
-            viewableImgContainer.current.appendChild(newImgContainer);
-            //============================================
             imgBox.addEventListener("click", () => {
                 if (!imgBox.classList.contains("selected")) {
                     sliderCount.current = [...allImgViewBarBoxes].indexOf(imgBox);
@@ -163,6 +187,14 @@ export default function Product({ hdr }) {
             })
         });
 
+        const seeMoreBtn = descRef.current.nextElementSibling;
+        const descContainer = descRef.current.querySelector('p');
+        const computedStyle = window.getComputedStyle(descContainer);
+        const lineHeight = computedStyle.lineHeight;
+
+        descRef.current.style.height = parseInt(lineHeight) * 4 + 'px';
+        setTruncatedText(product.description);
+        seeMoreBtn.innerHTML = 'See more...';
 
         hdr(true);
         return () => {
@@ -181,169 +213,114 @@ export default function Product({ hdr }) {
         <>
             <div className="product-page-container">
                 <div className="container">
-                    <div className="product-img-viewer">
-                        <div className="left-view-draggable-bar" ref={leftViewDragableBar}>
-                            <button className="view-select-arrow scroll-top" onClick={selectNextAndPrev} data-select="prev">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="1em"
-                                    height="1em"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="aq ar as at eq er"
-                                >
-                                    <polyline points="6 9 12 15 18 9" />
-                                </svg>
-                            </button>
-                            <div className="draggable-img-container">
-                                <div
-                                    className="draggable-img-container-inner"
-                                    style={{ transform: "translate3d(0px, -257.5px, 0px)" }}
-                                    ref={drgblImgContainerInner}
-                                >
-                                    <div className="draggable-img">
-                                        <img src={process.env.REACT_APP_API_URL + '/' + product.images[0].filePath} alt="product" />
+                    {pathnames.map((value, index) => {
+                        const to = `/${pathnames.slice(0, index + 1).join('/')}`;
+                        return (
+                            <div key={index} className='breadcrumb'>
+                                <Link to={'/'}>Home</Link>
+                                <span>/</span>
+                                <Link className='breadcrumb-current' to={to}>{value.charAt(0).toUpperCase() + value.slice(1)}</Link>
+                                <span>/</span>
+                                <Link className='breadcrumb-current' to={to + '/' + product.id}>{product.id}</Link>
+                            </div>
+                        );
+                    })}
+                    <div className="product-img-view-and-details">
+                        <div className="product-img-viewer">
+                            <div className="left-view-draggable-bar" ref={leftViewDragableBar}>
+                                <button className="view-select-arrow scroll-top" onClick={selectNextAndPrev} data-select="prev">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="aq ar as at eq er">
+                                        <polyline points="6 9 12 15 18 9" />
+                                    </svg>
+                                </button>
+                                <div className="draggable-img-container">
+                                    <div className="draggable-img-container-inner" ref={drgblImgContainerInner}>
+                                        {product.images.map((img, i) => {
+                                            return <div className={i === 0 ? 'draggable-img selected' : 'draggable-img'} key={i}>
+                                                <img src={process.env.REACT_APP_API_URL + '/' + img.filePath} alt="product" />
+                                            </div>
+                                        })}
                                     </div>
-                                    <div className="draggable-img">
-                                        <img src={process.env.REACT_APP_API_URL + '/' + product.images[1].filePath} alt="product" />
-                                    </div>
-                                    <div className="draggable-img selected">
-                                        <img src={process.env.REACT_APP_API_URL + '/' + product.images[2].filePath} alt="product" />
-                                    </div>
-                                    <div className="draggable-img">
-                                        <img src={process.env.REACT_APP_API_URL + '/' + product.images[3].filePath} alt="product" />
-                                    </div>
-                                    <div className="draggable-img">
-                                        <img src={product.thumbnail} alt="product" />
-                                    </div>
-                                    <div className="draggable-img">
-                                        <img src={product.thumbnail} alt="product" />
-                                    </div>
-                                    <div className="draggable-img">
-                                        <img src={product.thumbnail} alt="product" />
-                                    </div>
-                                    <div className="draggable-img">
-                                        <img src={product.thumbnail} alt="product" />
-                                    </div>
+                                </div>
+                                <button className="view-select-arrow scroll-bottom" onClick={selectNextAndPrev} data-select="next">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="aq ar as at eq er" >
+                                        <polyline points="6 9 12 15 18 9" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div className="main-all-img-container">
+                                <div className="product-img-container-inner" ref={viewableImgContainer}>
+                                    {product.images.map((img, i) => {
+                                        return <div className="img-container" key={i}>
+                                            <div className="product-img--main" style={{ backgroundImage: `url("${process.env.REACT_APP_API_URL + "/" + img.filePath}")`, transformOrigin: "1.821862% 57.6%" }} />
+                                        </div>
+                                    })}
                                 </div>
                             </div>
-                            <button className="view-select-arrow scroll-bottom" onClick={selectNextAndPrev} data-select="next">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="1em"
-                                    height="1em"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="aq ar as at eq er"
-                                >
-                                    <polyline points="6 9 12 15 18 9" />
-                                </svg>
-                            </button>
                         </div>
-                        <div className="main-all-img-container">
-                            <div
-                                className="product-img-container-inner"
-                                style={{ transform: "translate3d(-200%, 0px, 0px)" }}
-                                ref={viewableImgContainer}
-                            >
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`,
-                                            transformOrigin: "1.821862% 57.6%"
-                                        }}
-                                    />
+                        <div className="product-detail" data-id={product.id}>
+                            <h2>{product.name}</h2>
+                            <div className="product-price-row">
+                                <div className="product-prices">
+                                    <p className='product-price discount-price'>৳{product.dprice}</p>
+                                    <p className='product-price old-price'><small>৳{product.price}</small></p>
                                 </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`
-                                        }}
-                                    />
+                                <div className={`stock-in-out ${product.stock}`}>
+                                    {product.stock === 'in' ? <span>In stock</span> : <span>Out of stock</span>}
                                 </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${process.env.REACT_APP_API_URL + '/' + product.images[0].filePath})`,
-                                            transformOrigin: "95.951417% 38.8%"
-                                        }}
-                                    />
+                                <button className="share-product" onClick={shareBtnClickHandler}>
+                                    <ShareIcon width={25} height={25} />
+                                </button>
+                            </div>
+                            <div className="small-details">
+                                <p className="tertiary-color">{product.id ? ('Product Code: ' + product.id) : ''}</p>
+                                <p className="tertiary-color">{product.modelname ? ('Model: ' + product.modelname) : ''}</p>
+                                <p className='tertiary-color'>Warranty: {warrantyMapping[product.warranty]}</p>
+                                <p className='tertiary-color'>Category: {categoryMapping[product.category]}</p>
+                            </div>
+                            <div>
+                                <span className='tertiary-color'>Available colors:</span>
+                                <div className="product-colors">
+                                    {product.color.split(',').map((clr, i) => <span key={i} onClick={selectColorHandler}>{clr}</span>)}
                                 </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`
-                                        }}
-                                    />
+                            </div>
+                            <div className="product-view-bottom-row">
+                                <div className="quantity">
+                                    <button data-value="decrease">-</button>
+                                    <input type="number" min={1} max={10} value={1} readOnly />
+                                    <button data-value="increase">+</button>
                                 </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`,
-                                            transformOrigin: "2.834008% 55%"
-                                        }}
-                                    />
-                                </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`,
-                                            transformOrigin: "1.012146% 45.6%"
-                                        }}
-                                    />
-                                </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`
-                                        }}
-                                    />
-                                </div>
-                                <div className="img-container">
-                                    <div
-                                        className="product-img--main"
-                                        style={{
-                                            backgroundImage: `url(${product.thumbnail})`
-                                        }}
-                                    />
-                                </div>
+                                <button className="add-to-cart" onClick={addToCart}>
+                                    Add to cart<CartIcon width={23} height={23} />
+                                </button>
+                                <button className="cart-page-btn" onClick={gotoCartPage}>
+                                    <CartPageIcon width={23} height={23} />
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <div className="product-detail" data-id={product.id}>
-                        <h2>{product.name}</h2>
-                        <div className="product-prices">
-                            <p className='product-price discount-price'>৳{product.dprice}</p>
-                            <p className='product-price old-price'><small>৳{product.price}</small></p>
+                    <div className='product-desc-outer'>
+                        <h3 className='product-desc-heading secondary-color'>Description</h3>
+                        <div className="product-desc-container" ref={descRef}>
+                            <p className=" tertiary-color" style={{ lineHeight: '18px' }}>{truncatedText}</p>
                         </div>
-                        <div className="small-details">
-                            <p className="tertiary-color">{product.modelname ? ('Model: ' + product.modelname) : ''}</p>
-                            <p className='tertiary-color'>Warranty: {warrantyMapping[product.warranty]}</p>
-                            <p className='tertiary-color'>Category: {categoryMapping[product.category]}</p>
+                        <span className="hide-for-desk" onClick={seeMoreHandler}>See less...</span>
+                    </div>
+                    <div className="product-review-sec">
+                        <div className="df alic jstfy-btwn mb5">
+                            <h3 className='secondary-color'>Reviews</h3>
+                            <span className='c-pointer pr-color'>View All</span>
                         </div>
-                        <div className="product-colors">
-                            {product.color.split(',').map((clr, i) => <span key={i} onClick={selectColorHandler}>{clr}</span>)}
+                        <p className='tertiary-color'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto pariatur dolore reiciendis atque deserunt neque fuga doloremque repellendus quis voluptatem.</p>
+                    </div>
+                </div>
+                <div className="more-products-container">
+                    <div className="container">
+                        <div className="more-pr-heading">
+                            <h3>Recommended</h3>
+                            <span>View All</span>
                         </div>
-                        <p className='secondary-color'>{product.description}</p>
-                        <button className="add-to-cart" onClick={addToCart}>
-                            <CartIcon width={25} height={25} />
-                        </button>
+                        <Products prList={prList} />
                     </div>
                 </div>
             </div>

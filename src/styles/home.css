@@ -12,8 +12,15 @@
 
 .offer-slider-box {
     border-radius: 10px;
-    overflow: hidden;
     width: 75%;
+    overflow: hidden;
+    position: relative;
+}
+
+.offer-slider-box .offer-slide-track{
+    display: flex;
+    transition: transform 0.3s linear;
+    will-change: transform;
 }
 
 .custom-order-box{
@@ -47,12 +54,27 @@
 }
 
 .offer-slider-box .offer-box {
+    flex-shrink: 0;
     color: white;
     background: var(--primaryColor);
     padding: 20px;
+    width: 100%;
+    max-width: 100%;
     height: 300px;
     display: grid;
     grid-template-columns: 1fr auto;
+}
+
+.offer-box.custom-order-slide{
+    background: rgb(231, 68, 68);
+}
+
+.offer-box.discount-and-offer{
+    background: rgb(14, 193, 154);
+}
+
+.offer-box.certified-products{
+    background: rgb(13, 142, 227);
 }
 
 .offer-slider-box .offer-box svg {
@@ -78,6 +100,34 @@
     margin-top: 10px;
 }
 
+.offer-slider-box .slider-position-display{
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.offer-slider-box .slider-position-display span{
+    display: block;
+    width: 7px;
+    height: 7px;
+    background: white;
+    border-radius: 50%;
+    transition: .3s ease-in-out;
+}
+
+.offer-slider-box .slider-position-display span:first-child{
+    opacity: 0;
+    visibility: hidden;
+}
+
+.offer-slider-box .slider-position-display span.active{
+    width: 15px;
+    border-radius: 100px;
+}
+
 .category-bar {
     padding: 10px 0;
 }
@@ -90,7 +140,7 @@
 .category-bar .category-list {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
     overflow: hidden;
     overflow-x: auto;
 }
@@ -105,16 +155,20 @@
     height: 30px;
     display: flex;
     align-items: center;
+    color: var(--secondaryTextColor);
     border: 1px solid var(--borderColor);
-    border-radius: 5px;
+    border-radius: 100px;
     cursor: pointer;
     user-select: none;
     -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-tap-highlight-color: transparent;
     transition: .3s ease-in-out;
 }
 
 .category-bar .category-list .category.active{
     background: var(--primaryColor);
+    border-color: var(--primaryColor);
     color: white;
 }
 
@@ -130,6 +184,7 @@
     }
     .offer-slider-box .offer-box{
         height: 200px;
+        padding: 10px 20px;
     }
     .offer-slider-box .offer-box .box-content h1{
         font-size: 23px;

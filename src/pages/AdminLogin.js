@@ -29,27 +29,57 @@ export default function AdminLogin({ hdr }) {
     //     setCookieFunction("custom-cookie", username, 7);
     // };
 
+    const inputChecker = () => {
+        const inputs = passwordInp.current.parentElement.querySelectorAll('input');
+        let empty = false;
+        
+        inputs.forEach((inp) => {
+            if(inp.value === ''){
+                empty = true;
+                inp.style.borderColor = 'red';
+            }else {
+                inp.style = '';
+            }
+        });
+        return empty;
+    }
+
     const handleAdminLogin = () => {
+        const empty = inputChecker();
         const credentials = {
             username: usernameInp.current.value,
             pass: passwordInp.current.value
         };
-        fetch(process.env.REACT_APP_API_URL+'/api/v1/admin/login', {
-            method: 'POST',
-            headers: {
-                "Content-type": 'application/json; charset=UTF-8'
-            },
-            body: JSON.stringify(credentials)
-        }).then((res) => res.json()).then((data) => {
-            if (data.error) {
-                alert(data.error.message);
-            } else {
-                setCookieFunction('panel', true, 1);
-                navigate('/admin');
+
+        if(!empty){
+            fetch(process.env.REACT_APP_API_URL+'/api/v1/admin/login', {
+                method: 'POST',
+                headers: {
+                    "Content-type": 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(credentials)
+            }).then((res) => res.json()).then((data) => {
+                if (data.error) {
+                    alert(data.error.message);
+                } else {
+                    setCookieFunction('panel', true, 1);
+                    navigate('/admin');
+                }
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+    }
+
+    const inpHandler = (e) => {
+        if(e.keyCode === 13){
+            console.log(e.target, e.target.parentElement)
+            const empty = inputChecker();
+
+            if(!empty){
+                handleAdminLogin();
             }
-        }).catch((error) => {
-            console.log(error);
-        })
+        }
     }
 
 
@@ -61,8 +91,8 @@ export default function AdminLogin({ hdr }) {
         <div className='admin-login'>
             <div className="login-inner">
                 <h3>Login Admin</h3>
-                <input type="text" placeholder='Username' ref={usernameInp} />
-                <input type="password" placeholder='Password' ref={passwordInp} />
+                <input type="text" placeholder='Username' ref={usernameInp} onKeyDown={inpHandler} />
+                <input type="password" placeholder='Password' ref={passwordInp} onKeyDown={inpHandler} />
                 <button className='admin-login-btn' onClick={handleAdminLogin}>Login</button>
             </div>
         </div>

@@ -6,10 +6,23 @@
     overflow: hidden;
 }
 
+.admin-panel-container .header-menu span{
+    background: var(--text-color);
+}
+
+.admin-panel-container .admin-left-panel-outer{
+    height: 100%;
+}
+
+.admin-panel-container .admin-left-panel-outer.active{
+    transform: translateX(0);
+}
+
 .admin-panel-container .admin-left-bar{
     background: #333;
     color: white;
     padding: 20px;
+    height: 100%;
     position: relative;
 }
 
@@ -65,7 +78,7 @@
 }
 
 .main-container {
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
 }
 
@@ -99,6 +112,10 @@
     margin-bottom: 15px;
     width: 100%;
     font-weight: lighter;
+}
+
+.inp-boxes-grid-container .product-edit-mode{
+    margin-bottom: 10px;
 }
 
 .inp-boxes-grid-container .inp-box.desc-and-feature .dflex {
@@ -306,6 +323,71 @@
     background: var(--background-color);
 }
 
+/* ---------------- product list ---------------- */
+
+.product-list-page{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.product-list-page .product-list-top{
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borderColor);
+}
+
+.product-list-page .product-list-top select{
+    cursor: pointer;
+    width: 100px;
+    min-height: 28px;
+    background: none;
+    outline: none;
+    padding-left: 10px;
+    font-size: 15px;
+    appearance: none;
+    border: 1px solid var(--borderColor);
+    color: var(--secondaryColor);
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+.product-list-page .product-list-rows{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product-list-page .product-list-item{
+    background: var(--slightTransparentBg);
+    padding: 10px;
+    border-radius: 5px;
+    gap: 3px;
+    position: relative;
+}
+
+.product-list-page .product-list-item input[type=checkbox]{
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primaryColor);
+    cursor: pointer;
+}
+
+.product-list-page .product-list-item button{
+    background: none;
+    border: none;
+    position: absolute;
+    right: 10px;
+}
+
+.product-list-page .product-list-item button *{
+    pointer-events: none;
+}
+
+.product-list-page .product-list-item svg{
+    fill: var(--text-color);
+    stroke: var(--text-color)
+}
 
 /*      left menu css start from here       */
 
@@ -367,9 +449,15 @@
     header nav a {
         display: initial !important;
     }
+    .overview-outer .overview-first-row{
+        flex-direction: column;
+    }
+    .overview-outer .overview-first-row .box{
+        width: 100%;
+    }
     .address-box {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'addr1 addr1''addr2 addr2''doornumber postcode''city city';
+        display: flex;
+        flex-direction: column;
     }
     .inp-box.bedrooms,
     .inp-box.bathrooms {
@@ -378,15 +466,23 @@
     .agent-info {
         min-width: 100%;
     }
+    .admin-panel-container .admin-left-panel-outer{
+        height: 100vh;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: .3s ease-in-out;
+        transform: translateX(-100%);
+        z-index: 99;
+    }
+    .admin-panel-container{
+        grid-template-columns: 1fr;
+    }
 }
 
 @media only screen and (max-width: 600px) {
     main {
         padding: 30px 5%;
-    }
-    .address-box {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'addr1 addr1''addr2 addr2''doornumber doornumber''postcode postcode''city city';
     }
     .inp-boxes-grid-container .inp-box {
         width: 100% !important;
@@ -406,6 +502,7 @@
 
 .admin-login .login-inner{
     width: 400px;
+    max-width: 90%;
     background: white;
     border-radius: 10px;
     display: flex;

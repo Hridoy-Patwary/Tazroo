@@ -9,22 +9,26 @@
     --background-color: #fff;
     --text-color: #000;
     --secondaryTextColor: #4d4d4d;
-    --tertiaryTextColor: #bdbdbd;
+    --tertiaryTextColor: #a6a6a6;
     --borderColor: #3331;
     --productBoxBg: #3331;
     --slightTransparentBg: rgba(69, 69, 69, 0.067);
+    --cartCheckoutLoadingBtnBg: rgba(243, 243, 243, 1);
     --headerShadowColor: #33333325;
+    --bgLoadingAnimLinearGradient: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
 }
 
 [theme='dark']:root {
     --background-color: #1d1d1d;
     --text-color: #fff;
-    --secondaryTextColor: #e2e2e2;
+    --secondaryTextColor: #dedede;
     --tertiaryTextColor: #696969;
     --borderColor: #c6c6c632;
     --productBoxBg: #c6c6c632;
     --slightTransparentBg: #c6c6c613;
+    --cartCheckoutLoadingBtnBg: rgba(42, 42, 42, 1);
     --headerShadowColor: #0000003d;
+    --bgLoadingAnimLinearGradient: linear-gradient(to right, #222222 8%, #3a3a3a46 18%, #222222 33%);
 }
 
 body {
@@ -32,6 +36,14 @@ body {
     color: var(--text-color);
     font-family: sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.no-scroll{
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    touch-action: none;
 }
 
 a {
@@ -58,6 +70,91 @@ button {
     max-width: 1300px;
 }
 
+.breadcrumb{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.breadcrumb .breadcrumb-current{
+    color: var(--tertiaryTextColor);
+    cursor: default;
+    pointer-events: none;
+}
+
+.breadcrumb a{
+    color: var(--primaryColor);
+}
+
+.breadcrumb span{
+    color: var(--tertiaryTextColor);
+}
+
+/* ---------------- default classes ---------------- */
+
+.dn{
+    display: none;
+}
+
+.df{
+    display: flex;
+}
+
+.dg{
+    display: grid;
+}
+
+.fdc{
+    flex-direction: column;
+}
+
+.fdr{
+    flex-direction: row;
+}
+
+.gap5{
+    gap: 5px;
+}
+
+.gap10{
+    gap: 10px;
+}
+
+.gap20{
+    gap: 20px;
+}
+
+.alic{
+    align-items: center;
+}
+
+.alis{
+    align-items: flex-start;
+}
+
+.alie{
+    align-items: flex-end;
+}
+
+.jstfy-btwn{
+    justify-content: space-between;
+}
+
+.jstfy-s{
+    justify-content: flex-start;
+}
+
+.jstfy-e{
+    justify-content: flex-end;
+}
+
+.c-pointer{
+    cursor: pointer;
+}
+
 .u_sel_none{
     user-select: none;
     -ms-user-select: none;
@@ -68,12 +165,72 @@ button {
     text-align: center;
 }
 
+.mt10{
+    margin-top: 10px;
+}
+
+.mt20{
+    margin-top: 20px;
+}
+
+.pr-color{
+    color: var(--primaryColor);
+}
+
 .secondary-color{
     color: var(--secondaryTextColor)
 }
 
 .tertiary-color{
     color: var(--tertiaryTextColor);
+}
+
+/* ---------------- margins ---------------- */
+
+.mb5{
+    margin-bottom: 5px;
+}
+
+.mb10{
+    margin-bottom: 10px;
+}
+
+.mb20{
+    margin-bottom: 20px;
+}
+
+/* ---------------- quantity ---------------- */
+.quantity {
+    width: 90px;
+    height: max-content;
+    display: flex;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 1px solid var(--borderColor);
+}
+
+.quantity input {
+    min-height: 100%;
+    border: none;
+    width: 100%;
+    background: none;
+    font-size: 16px;
+    text-align: center;
+    -moz-appearance: none;
+}
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.quantity button {
+    background: none;
+    border: none;
+    color: var(--secondaryTextColor);
+    font-size: 17px;
+    line-height: 17px;
+    padding: 4px 10px;
 }
 
 /* ---------------- loading spinner ---------------- */

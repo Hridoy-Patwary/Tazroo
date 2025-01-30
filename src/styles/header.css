@@ -32,12 +32,32 @@
     padding-left: 10px;
 }
 
+.header-search .header-search-spinner-and-icon{
+    position: relative;
+    height: 100%;
+    min-width: 20px;
+}
+
+.header-search .header-search-spinner-and-icon .loader,
+.header-search .header-search-spinner-and-icon svg{
+    position: absolute;
+    top: calc(50% - 8.5px);
+    left: 0;
+    transition: opacity, visibility .2s ease-in-out;
+}
+
+.header-search .header-search-spinner-and-icon .loader{
+    opacity: 0;
+    visibility: hidden;
+}
+
 .header-search input {
     font-size: 16px;
     padding-left: 10px;
     border: none;
     background: none;
-    color: inherit
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .header-search .search-btn {
@@ -113,6 +133,10 @@
     cursor: pointer;
 }
 
+.header-outer .services-header-menu svg line, .header-outer .services-header-menu svg circle {
+    stroke: rgb(209, 209, 209);
+}
+
 [data-showmob="true"]{
     display: none;
 }
@@ -151,6 +175,7 @@
     display: none;
     position: relative;
     border: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .header-menu input {
@@ -207,6 +232,10 @@
 .header-menu input:checked~span:nth-last-child(3) {
     opacity: 0;
     transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+.mob-bottom-menus, .search-res-container{
+    display: none;
 }
 
 /* ---------------- responsive ---------------- */
@@ -268,7 +297,7 @@
         left: 0;
         top: 0;
         width: 100%;
-        height: 57px;
+        height: 53px;
         display: block;
         background: var(--primaryColor);
         border-bottom-left-radius: 20px;
@@ -279,7 +308,7 @@
 
     .header-logo-container {
         position: fixed;
-        z-index: 99;
+        z-index: 1;
         top: 8px;
         left: 3.5%;
         transition: .3s;
@@ -311,10 +340,107 @@
         position: fixed;
         top: 10px;
         right: 72px;
+        transition: .2s ease-in-out;
+    }
+
+    .header-outer.show-search .header-search{
+        width: 92%;
+        right: 4%;
+        height: 40px;
+        z-index: 99;
+    }
+
+    .header-outer .overlay-bg-for-search{
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        background: #000000cf;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 9;
+        opacity: 0;
+        visibility: hidden;
+        transition: .2s ease-in-out;
+    }
+    
+    .header-outer .overlay-bg-for-search .search-res-container{
+        width: 600px;
+        max-width: 90%;
+        min-height: 1px;
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: rgba(102, 102, 102, 0.74);
+        transform: translateX(-50%) scaleY(0);
+        transform-origin: top;
+        padding: 0 10px 0 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        transition: .3s ease-in-out;
+    }
+
+    .header-outer .overlay-bg-for-search.active .search-res-container{
+        transform: translateX(-50%) scaleY(1);
+    }
+
+    .header-outer .overlay-bg-for-search .search-res-container .search-result{
+        display: flex;
+        align-items: center;
+        background: var(--background-color);
+        padding: 10px;
+        border-radius: 5px;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .header-outer .overlay-bg-for-search .search-res-container .search-result:first-child{
+        margin-top: 20px;
+    }
+
+    .header-outer .overlay-bg-for-search .search-res-container .search-result:last-child{
+        margin-bottom: 10px;
     }
 
     .header-search .search-btn{
-        display: none;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        position: absolute;
+        right: 0px;
+        transition: .2s ease-in-out;
+    }
+
+    .header-search .loader{
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+        border-color: #000;
+        border-bottom-color: transparent;
+    }
+
+    .header-outer.show-search .overlay-bg-for-search{
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .header-outer.show-search .search-btn{
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+    }
+
+    .header-search-spinner-and-icon.flip svg{
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .header-search-spinner-and-icon.flip .loader{
+        visibility: visible;
+        opacity: 1;
     }
 
     .header-outer.active nav {

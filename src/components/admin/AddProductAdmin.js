@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../../styles/account.css'
+import { useLocation } from 'react-router-dom';
 
 export default function AddProductAdmin() {
     const formRef = useRef();
     const dragDropBox = useRef();
     const loadingWin = useRef();
+    const location = useLocation();
     const [droppedFiles, setDroppedFiles] = useState({});
+    const [editId, setEditId] = useState();
+    const [prData, setPrData] = useState();
 
     const fileChangeHandler = (e) => {
         const dropType = e.target.closest('.media-drag-drop').dataset.type;
@@ -37,6 +41,10 @@ export default function AddProductAdmin() {
 
 
     const handleSubmit = async (e) => {
+        if(editId){
+            alert('Edit feature is not available yet, stay tuned for update');
+            return;
+        }
         const target = e.target;
         const form = formRef.current;
         const formData = new FormData(form);
@@ -140,7 +148,40 @@ export default function AddProductAdmin() {
                 d.removeEventListener("dragleave", handleDragLeave);
             };
         }
+        
     }, []);
+
+    useEffect(() => {
+        const fetchProductDetails = async () => {
+            const params = new URLSearchParams(location.search);
+            const pid = params.get('pid');
+    
+            if (!pid || pid.trim() === '') {
+                setEditId(null);
+                return;
+            }
+            setEditId(pid);
+    
+            try {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/product/details`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ id: pid })
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setPrData(data);
+            } catch (error) {
+                console.error("Error fetching product details:", error);
+            }
+        };
+
+        fetchProductDetails();
+    }, [location.search]);
     return (
         <div className='admin-panel-add-product'>
             <div className="show-loading-win" ref={loadingWin}>
@@ -149,35 +190,36 @@ export default function AddProductAdmin() {
             </div>
             <form method="post" action="" onSubmit={(e) => e.preventDefault()} data-logid="" className="main-container" ref={formRef}>
                 <div className="inp-boxes-grid-container">
+                    {editId ? <span className='product-edit-mode'>Edit mode - PID: {editId}</span> : ''}
                     <div className="address-box">
                         <div className="inp-box modelname">
                             <span>Model Name</span>
-                            <input type="text" name="modelname" required="" />
+                            <input type="text" name="modelname" placeholder='Model' defaultValue={prData ? prData.modelname : ''} required="" />
                         </div>
                         <div className="inp-box pname">
                             <span>Product Name</span>
-                            <input type="text" name="name" required="" />
+                            <input type="text" name="name" placeholder='Name' defaultValue={prData ? prData.name : ''} required="" />
                         </div>
                         <div className="inp-box brand">
                             <span>Brand</span>
-                            <input type="text" name="brand" required="" />
+                            <input type="text" name="brand" defaultValue={prData ? prData.brand : ''} required="" />
                         </div>
                         <div className="inp-box dprice">
                             <span>Discount Price</span>
-                            <input type="text" name="dprice" />
+                            <input type="text" name="dprice" defaultValue={prData ? prData.dprice : ''} />
                         </div>
                         <div className="inp-box rprice">
                             <span>Regular Price</span>
-                            <input type="text" name="price" required="" />
+                            <input type="text" name="price" required="" defaultValue={prData ? prData.price : ''} />
                         </div>
                     </div>
                     <div className="inp-box size">
                         <span>Size</span>
-                        <input type="text" name="size" required="" />
+                        <input type="text" name="size" required="" defaultValue={prData ? prData.size : ''} />
                     </div>
                     <div className="inp-box color">
                         <span>Color</span>
-                        <input type="text" name="color" required="" />
+                        <input type="text" name="color" required="" defaultValue={prData ? prData.color : ''} />
                     </div>
                     <div className="inp-box w25 depertment">
                         <span>Stock Status</span>
@@ -202,9 +244,9 @@ export default function AddProductAdmin() {
                         <span>Pickup Location</span>
                         <div className="inp-box-inner">
                             <select name="location">
-                                <option value="for_sale">Anywhere</option>
-                                <option value="sold">Cumilla Computer &amp; IT Center</option>
-                                <option value="under_offer">Add Location</option>
+                                <option value="anywhere">Anywhere</option>
+                                <option value="CCANDITC">Cumilla Computer &amp; IT Center</option>
+                                <option value="add_loc">Add Location</option>
                             </select>
                         </div>
                     </div>
@@ -223,11 +265,7 @@ export default function AddProductAdmin() {
                     </div>
                     <div className="inp-box desc-and-feature">
                         <span>Description</span>
-                        <textarea
-                            className="desc-feature-inp"
-                            name="description"
-                            defaultValue={""}
-                        />
+                        <textarea className="desc-feature-inp" name="description" defaultValue={prData ? prData.description : ''} />
                     </div>
                     <div className="inp-box media-drag-drop" data-type="image" multiple="" accept="image/*" >
                         <div className="drag-drop-box" ref={dragDropBox}>
