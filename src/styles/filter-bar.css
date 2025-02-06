@@ -1,0 +1,66 @@
+.filter-bar{
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    color: white;
+    z-index: 999;
+    padding-top: 50px;
+    background: #333333ee;
+    transition: .3s ease-in-out;
+}
+
+.header-outer.active-bg .filter-bar{
+    right: 0;
+}
+
+.filter-bar .filter-box{
+    padding: 10px 2.7vw 10px 2.7vw;
+    overflow: hidden;
+    border-bottom: 1px solid #ffffff4c;
+}
+
+.filter-bar .filter-box h3{
+    margin-bottom: 5px;
+}
+
+.filter-bar .filter-box .filter-box-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.filter-bar .filter-box .input-row{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #c6c6c6;
+}
+
+.filter-bar .filter-box .input-row input{
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    accent-color: var(--primaryColor);
+}
+
+.filter-bar .filter-box input[type=number]{
+    color: #fff;
+    width: 80px;
+    height: 30px;
+    font-size: 15px;
+    border-radius: 100px;
+    text-align: center;
+    background: none;
+    border: 1px solid #ffffff6c;
+}
+
+/* ---------------- responsive ---------------- */
+@media only screen and (max-width: 768px){
+    .filter-bar{
+        width: 200px;
+    }
+
+}

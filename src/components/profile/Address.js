@@ -1,8 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ReactComponent as TrashIcon } from '../../assets/icons/trash.svg';
+import apiService from '../../services/apiService';
 
-export default function Address({ id, addr }) {
+export default function Address({ id, data }) {
   const addrRef = useRef();
+  const [udata, setUdata] = useState();
 
   const addrSubmitHandler = (e) => {
     const target = e.target;
@@ -52,17 +54,32 @@ export default function Address({ id, addr }) {
     }
   }
 
-  const addrDeleteHandler = (e) => {
+  const addrDeleteHandler = async (e) => {
     const target = e.target;
     const parent = target.parentElement;
+    const indx = target.dataset.indx;
+    const addrArr = data.address || [];
+    addrArr.splice(indx, 1);
+    addrArr[0]['default-address'] = true;
 
-    alert('This address will be removed');
+    const result = await apiService.post('/api/v1/user/remove/addr', { id: id, addr: addrArr })
+    console.log(result);
     parent.remove();
   }
 
+  useEffect(() => {
+    const fn = async () => {
+      const result = await apiService.post('/api/v1/user/info',{id: id});
+      setUdata(result);
+    }
+    fn();
+  },[id])
+
   return (
     <div className='tab-container addr-tab'>
-      <h3>Add your address</h3>
+      <div className="tab-heading">
+        <h3>Add your address</h3>
+      </div>
       <div className="addr-form" ref={addrRef}>
         <input type="text" name='address' placeholder='Address 1' required />
         <input type="text" name='address-optional' placeholder='Address 2 (optional)' />
@@ -80,10 +97,10 @@ export default function Address({ id, addr }) {
         </div>
       </div>
       <div className="addr-list">
-        {addr ? addr.map((adr, i) => {
+        {udata && udata.address ? udata.address.map((adr, i) => {
           return <div className='addr-row df alic jstfy-btwn' key={i}>
             <p>{adr.address}</p>
-            <button onClick={addrDeleteHandler}>
+            <button onClick={addrDeleteHandler} data-indx={i}>
               <TrashIcon width={20} height={20} />
             </button>
           </div>

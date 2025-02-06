@@ -5,7 +5,9 @@
 }
 
 :root {
-    --primaryColor: #2ab873;
+    --primaryColor: rgb(42 184 115);
+    --transparentPrColor: rgba(42, 184, 115, 0.50);
+    --warning: rgba(248, 99, 99, 0.423);
     --background-color: #fff;
     --text-color: #000;
     --secondaryTextColor: #4d4d4d;
@@ -15,6 +17,7 @@
     --slightTransparentBg: rgba(69, 69, 69, 0.067);
     --cartCheckoutLoadingBtnBg: rgba(243, 243, 243, 1);
     --headerShadowColor: #33333325;
+    --searchResBg: #282727;
     --bgLoadingAnimLinearGradient: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
 }
 
@@ -28,17 +31,20 @@
     --slightTransparentBg: #c6c6c613;
     --cartCheckoutLoadingBtnBg: rgba(42, 42, 42, 1);
     --headerShadowColor: #0000003d;
+    --searchResBg: #282727;
     --bgLoadingAnimLinearGradient: linear-gradient(to right, #222222 8%, #3a3a3a46 18%, #222222 33%);
 }
 
 body {
+    min-height: 100vh;
     background: var(--background-color);
     color: var(--text-color);
     font-family: sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
 }
 
-.no-scroll{
+.no-scroll {
     position: absolute;
     width: 100%;
     overflow: hidden;
@@ -60,6 +66,16 @@ input {
     outline: none;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type=number] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
 button {
     cursor: pointer;
 }
@@ -70,7 +86,7 @@ button {
     max-width: 1300px;
 }
 
-.breadcrumb{
+.breadcrumb {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -79,123 +95,132 @@ button {
     font-size: 15px;
 }
 
-.breadcrumb .breadcrumb-current{
+.breadcrumb .breadcrumb-current {
     color: var(--tertiaryTextColor);
     cursor: default;
     pointer-events: none;
 }
 
-.breadcrumb a{
+.breadcrumb a {
     color: var(--primaryColor);
 }
 
-.breadcrumb span{
+.breadcrumb span {
     color: var(--tertiaryTextColor);
 }
 
 /* ---------------- default classes ---------------- */
 
-.dn{
+.dn {
     display: none;
 }
 
-.df{
+.df {
     display: flex;
 }
 
-.dg{
+.dg {
     display: grid;
 }
 
-.fdc{
+.fdc {
     flex-direction: column;
 }
 
-.fdr{
+.fdr {
     flex-direction: row;
 }
 
-.gap5{
+.gap5 {
     gap: 5px;
 }
 
-.gap10{
+.gap10 {
     gap: 10px;
 }
 
-.gap20{
+.gap20 {
     gap: 20px;
 }
 
-.alic{
+.alic {
     align-items: center;
 }
 
-.alis{
+.alis {
     align-items: flex-start;
 }
 
-.alie{
+.alie {
     align-items: flex-end;
 }
 
-.jstfy-btwn{
+.jstfy-btwn {
     justify-content: space-between;
 }
 
-.jstfy-s{
+.jstfy-s {
     justify-content: flex-start;
 }
 
-.jstfy-e{
+.jstfy-e {
     justify-content: flex-end;
 }
 
-.c-pointer{
+.c-pointer {
     cursor: pointer;
 }
 
-.u_sel_none{
+.u_sel_none {
     user-select: none;
     -ms-user-select: none;
     -moz-user-select: none;
 }
 
-.t-center{
+.t-center {
     text-align: center;
 }
 
-.mt10{
+.mt10 {
     margin-top: 10px;
 }
 
-.mt20{
+.mt20 {
     margin-top: 20px;
 }
 
-.pr-color{
+.pr-color {
     color: var(--primaryColor);
 }
 
-.secondary-color{
+.secondary-color {
     color: var(--secondaryTextColor)
 }
 
-.tertiary-color{
+.tertiary-color {
     color: var(--tertiaryTextColor);
+}
+
+.oh {
+    overflow: hidden;
+}
+
+/* ---------------- width ---------------- */
+.w100 {
+    width: 100%;
 }
 
 /* ---------------- margins ---------------- */
 
-.mb5{
+.mb5 {
     margin-bottom: 5px;
 }
 
-.mb10{
+.mb10 {
     margin-bottom: 10px;
 }
 
-.mb20{
+.mb20 {
     margin-bottom: 20px;
 }
 
@@ -217,11 +242,6 @@ button {
     font-size: 16px;
     text-align: center;
     -moz-appearance: none;
-}
-
-.quantity input::-webkit-outer-spin-button,
-.quantity input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
 }
 
 .quantity button {
@@ -260,14 +280,14 @@ button {
 }
 
 /* ---------------- responsive ---------------- */
-@media only screen and (max-width: 1200px){
-    .container{
+@media only screen and (max-width: 1200px) {
+    .container {
         width: 85%;
     }
 }
 
-@media only screen and (max-width: 992px){
-    .container{
+@media only screen and (max-width: 992px) {
+    .container {
         width: 88%;
     }
 }

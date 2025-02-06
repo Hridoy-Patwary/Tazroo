@@ -1,6 +1,6 @@
 .cart-heading {
     text-align: center;
-    padding: 30px 0 0 0;
+    padding: 10px 0 0 0;
 }
 
 .cart-list-container {
@@ -266,14 +266,8 @@
         padding: 10px 0;
     }
 
-    .cart-list-checkout-box .shipping-address {
+    .cart-list-checkout-box .shipping-address, .cart-list-checkout-box .order-summery {
         width: 100%;
-        /* max-width: 230px; */
-    }
-
-    .cart-list-checkout-box .order-summery {
-        width: 100%;
-        /* max-width: 150px; */
     }
 
     .cart-list .cart-item {
@@ -315,7 +309,7 @@
         gap: 0;
     }
 
-    .cart-list .details p:first-child {
+    .cart-list .details a:first-child {
         font-size: 15px;
         white-space: nowrap;
         overflow: hidden;

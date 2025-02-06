@@ -44,7 +44,10 @@ export default function AdminLogin({ hdr }) {
         return empty;
     }
 
-    const handleAdminLogin = () => {
+    const handleAdminLogin = (e, f) => {
+        const tr = f ? e : e.target;
+        tr.classList.add('loading');
+
         const empty = inputChecker();
         const credentials = {
             username: usernameInp.current.value,
@@ -65,6 +68,7 @@ export default function AdminLogin({ hdr }) {
                     setCookieFunction('panel', true, 1);
                     navigate('/admin');
                 }
+                tr.classList.remove('loading');
             }).catch((error) => {
                 console.log(error);
             })
@@ -73,11 +77,10 @@ export default function AdminLogin({ hdr }) {
 
     const inpHandler = (e) => {
         if(e.keyCode === 13){
-            console.log(e.target, e.target.parentElement)
             const empty = inputChecker();
 
             if(!empty){
-                handleAdminLogin();
+                handleAdminLogin(e.target.parentElement.querySelector('.admin-login-btn'), true);
             }
         }
     }
@@ -90,10 +93,12 @@ export default function AdminLogin({ hdr }) {
     return (
         <div className='admin-login'>
             <div className="login-inner">
-                <h3>Login Admin</h3>
+                <h3 style={{color: 'black'}}>Admin Login</h3>
                 <input type="text" placeholder='Username' ref={usernameInp} onKeyDown={inpHandler} />
                 <input type="password" placeholder='Password' ref={passwordInp} onKeyDown={inpHandler} />
-                <button className='admin-login-btn' onClick={handleAdminLogin}>Login</button>
+                <div className="t-center">
+                    <button className='admin-login-btn sign-anim-btn' onClick={handleAdminLogin}>Login</button>
+                </div>
             </div>
         </div>
     )

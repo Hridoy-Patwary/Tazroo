@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Product from './pages/Product';
 import Cart from './pages/Cart';
-import Services from './pages/Services'
 import User from './pages/User';
-import Header from './components/Header';
+import Home from './pages/Home';
 import Admin from './pages/Admin';
-import AdminLogin from './pages/AdminLogin';
+import Product from './pages/Product';
 import Profile from './pages/Profile';
+import Services from './pages/Services'
+import Header from './components/Header';
+import AdminLogin from './pages/AdminLogin';
 import Feedback from './pages/small/Feedback';
 
 
@@ -16,12 +16,18 @@ function App() {
   const [header, setHeader] = useState(true);
   const [products, setProducts] = useState([]);
   
-
   const setHeaderVisibility = (visible) => {
     setHeader(visible);
   }
 
   useEffect(() => {
+      const footer = document.querySelector('.footer-container');
+
+      if(footer){
+        const footerBoundingRect = footer.getBoundingClientRect();
+        document.body.style.paddingBottom = footerBoundingRect.height + 'px';
+      }
+
       fetch(process.env.REACT_APP_API_URL + '/api/v1/product-list')
           .then((res) => res.json())
           .then((data) => setProducts(data)).catch((error) => {

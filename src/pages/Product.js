@@ -16,20 +16,23 @@ export default function Product({ hdr, prList }) {
     const [product, setProduct] = useState(null);
     const [truncatedText, setTruncatedText] = useState('');
     const pathnames = location.pathname.split('/').filter(x => x);
+    const to = `/${pathnames[0]}/${pathnames[1]}`;
 
-    const warrantyMapping = {
-        'sd': 'Same Day',
-        '3mnth': '3 Months',
-        '6mnth': '6 Months',
-        '1yr': '1 Year',
-        '2yr': '2 Years',
-        '3yr': '3 Years'
+    const mappings = {
+        warrantyMapping: {
+            'sd': 'Same Day',
+            '3mnth': '3 Months',
+            '6mnth': '6 Months',
+            '1yr': '1 Year',
+            '2yr': '2 Years',
+            '3yr': '3 Years'
+        },
+        categoryMapping: {
+            'it': 'IT Accessories',
+            'elc': 'Electronics',
+            'clo': 'Cloathing'
+        }
     };
-    const categoryMapping = {
-        'it': 'IT Accessories',
-        'elc': 'Electronics',
-        'clo': 'Cloathing'
-    }
 
     const addToCart = (e) => {
         const headerCartCounter = document.querySelector('.header-cart-btn span');
@@ -123,8 +126,13 @@ export default function Product({ hdr, prList }) {
         }
     }
 
-    const selectColorHandler = () => {
-        console.log('helo');
+    const selectColorHandler = (e) => {
+        const tr = e.target;
+        const parent = tr.parentElement;
+        const oldActive = parent.querySelector('.active');
+
+        if(oldActive) oldActive.classList.remove('active');
+        tr.classList.add('active');
     }
 
     const seeMoreHandler = (e) => {
@@ -213,18 +221,13 @@ export default function Product({ hdr, prList }) {
         <>
             <div className="product-page-container">
                 <div className="container">
-                    {pathnames.map((value, index) => {
-                        const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-                        return (
-                            <div key={index} className='breadcrumb'>
-                                <Link to={'/'}>Home</Link>
-                                <span>/</span>
-                                <Link className='breadcrumb-current' to={to}>{value.charAt(0).toUpperCase() + value.slice(1)}</Link>
-                                <span>/</span>
-                                <Link className='breadcrumb-current' to={to + '/' + product.id}>{product.id}</Link>
-                            </div>
-                        );
-                    })}
+                    <div className='breadcrumb'>
+                        <Link to={'/'}>Home</Link>
+                        <span>/</span>
+                        <Link to={to}>{pathnames[0].charAt(0).toUpperCase() + pathnames[0].slice(1)}</Link>
+                        <span>/</span>
+                        <Link className='breadcrumb-current' to={to + '/' + product.id}>{pathnames[1]}</Link>
+                    </div>
                     <div className="product-img-view-and-details">
                         <div className="product-img-viewer">
                             <div className="left-view-draggable-bar" ref={leftViewDragableBar}>
@@ -275,8 +278,8 @@ export default function Product({ hdr, prList }) {
                             <div className="small-details">
                                 <p className="tertiary-color">{product.id ? ('Product Code: ' + product.id) : ''}</p>
                                 <p className="tertiary-color">{product.modelname ? ('Model: ' + product.modelname) : ''}</p>
-                                <p className='tertiary-color'>Warranty: {warrantyMapping[product.warranty]}</p>
-                                <p className='tertiary-color'>Category: {categoryMapping[product.category]}</p>
+                                <p className='tertiary-color'>Warranty: {mappings.warrantyMapping[product.warranty]}</p>
+                                <p className='tertiary-color'>Category: {mappings.categoryMapping[product.category]}</p>
                             </div>
                             <div>
                                 <span className='tertiary-color'>Available colors:</span>

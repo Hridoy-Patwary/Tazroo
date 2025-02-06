@@ -72,54 +72,16 @@ export default function Profile({ hdr }) {
                         <p className='tertiary-color'><span className='hide-email-title'>Email: </span>{userData.email}</p>
                     </div>
                     <div className="profile-circle-progress">
-                        <svg
-                            role="progressbar"
-                            width={200}
-                            height={200}
-                            viewBox="0 0 100 100"
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                            aria-valuenow={75}
-                        >
-                            <circle
-                                cx="50%"
-                                cy="50%"
-                                r={42}
-                                shapeRendering="geometricPrecision"
-                                fill="none"
-                                stroke="#e6e6e6"
-                                strokeWidth={10}
-                            />
+                        <svg role="progressbar" width={200} height={200} viewBox="0 0 100 100" aria-valuemin={0} aria-valuemax={100} aria-valuenow={75} >
+                            <circle cx="50%" cy="50%" r={42} shapeRendering="geometricPrecision" fill="none" stroke="#e6e6e6" strokeWidth={10} />
                             <defs>
                                 <linearGradient id="linear-4">
                                     <stop offset="0%" stopColor="yellow" />
                                     <stop offset="100%" stopColor="#ff0000" />
                                 </linearGradient>
                             </defs>
-                            <circle
-                                cx="50%"
-                                cy="50%"
-                                r={42}
-                                shapeRendering="geometricPrecision"
-                                className="pie-circle-4"
-                                fill="none"
-                                strokeWidth={10}
-                                strokeDashoffset={66}
-                                strokeDasharray={264}
-                                strokeLinecap="round"
-                                style={{ transform: "rotate(-90deg)", transformOrigin: "50% 50%" }}
-                                stroke="url(#linear-4)"
-                                data-angel={75}
-                            />
-                            <text
-                                className="progress-text"
-                                x="50%"
-                                y="50%"
-                                fill="#000"
-                                textAnchor="middle"
-                                dy="0.35em"
-                                fontSize="1.6rem"
-                                fontWeight={400}>
+                            <circle cx="50%" cy="50%" r={42} shapeRendering="geometricPrecision" className="pie-circle-4" fill="none" strokeWidth={10} strokeDashoffset={66} strokeDasharray={264} strokeLinecap="round" style={{ transform: "rotate(-90deg)", transformOrigin: "50% 50%" }} stroke="url(#linear-4)" data-angel={75} />
+                            <text className="progress-text" x="50%" y="50%" fill="#000" textAnchor="middle" dy="0.35em" fontSize="1.6rem" fontWeight={400}>
                                 <tspan className="progress-percentage">75</tspan>
                                 <tspan>%</tspan>
                             </text>
@@ -136,12 +98,10 @@ export default function Profile({ hdr }) {
                     </div>
                     <div className="tabs-container">
                         <div className="tabs-slider-track" ref={tabsTrack}>
-                            {
-                                profileTabs.map((tab, i) => {
-                                    const Comp = tabs.filter((v) => v.name === tab)[0].component;
-                                    return <Comp key={i} id={userData.id} addr={userData.address} />;
-                                })
-                            }
+                            {profileTabs.map((tab, i) => {
+                                const Comp = tabs.filter((v) => v.name === tab)[0].component;
+                                return <Comp key={i} id={userData.id} data={userData} />;}
+                            )}
                         </div>
                     </div>
                     <div className="profile-hero-area">

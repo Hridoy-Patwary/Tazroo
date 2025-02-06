@@ -1,5 +1,5 @@
 .home-container{
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .hero-area{
@@ -176,11 +176,74 @@
     pointer-events: none;
 }
 
+.category-sort-filter-bar .sort-filter-container svg{
+    fill: var(--secondaryTextColor);
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    pointer-events: none;
+}
+
+.category-sort-filter-bar .sort-filter-container svg path,
+.category-sort-filter-bar .sort-filter-container svg circle{
+    stroke: var(--secondaryTextColor);
+}
+
+.category-sort-filter-bar .opts .title{
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--tertiaryTextColor);
+}
+
+.category-sort-filter-bar .filter-option{
+    padding: 5px 7px;
+    cursor: pointer;
+    border-radius: 3px;
+    letter-spacing: .2px;
+    background: var(--productBoxBg);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.category-sort-filter-bar .filter-option .title{
+    color: var(--secondaryTextColor);
+}
+
+.category-sort-filter-bar .opts .grid-and-list-view{
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--productBoxBg);
+}
+
+.category-sort-filter-bar .opts .grid-and-list-view .icon{
+    padding: 4px 5px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: .2s ease-in-out;
+}
+
+.category-sort-filter-bar .opts .grid-and-list-view .icon.active{
+    background: var(--primaryColor);
+}
+
+.category-sort-filter-bar .opts .grid-and-list-view .icon.active svg{
+    fill: white;
+}
+
+.category-sort-filter-bar .opts .grid-and-list-view .icon.active svg path,
+.category-sort-filter-bar .opts .grid-and-list-view .icon.active svg circle{
+    stroke: white;
+}
+
+.category-sort-filter-bar .view-option{
+    display: none;
+}
+
 /* ---------------- responsive ---------------- */
 
 @media only screen and (max-width: 768px){
     .hero-area{
         flex-direction: column;
+        margin-top: 5px;
     }
     .offer-slider-box .offer-box{
         height: 200px;
@@ -200,6 +263,19 @@
     }
     .custom-order-box{
         height: max-content;
+    }
+    .category-sort-filter-bar{
+        flex-direction: column;
+    }
+    .category-sort-filter-bar .category-list,
+    .category-sort-filter-bar .sort-filter-container{
+        width: 100%;
+    }
+    .category-sort-filter-bar .sort-filter-container{
+        justify-content: space-between;
+    }
+    .category-sort-filter-bar .view-option{
+        display: flex;
     }
 }
 

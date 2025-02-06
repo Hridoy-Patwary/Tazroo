@@ -231,7 +231,7 @@ export default function Cart({ hdr }) {
                                         <div className="item-img-and-details">
                                             <img src={process.env.REACT_APP_API_URL + '/' + item.images[0].filePath} width={80} alt="" />
                                             <div className="details">
-                                                <p>{item.name}</p>
+                                                <Link to={`/product/${item.id}`}>{item.name}</Link>
                                                 <div className='dg'>
                                                     <small>{item.modelname ? ('Model: ' + item.modelname) : ''}</small>
                                                     <small className='warranty-text'>{item.warranty ? 'Warranty: ' : ''}{warrantyMapping[item.warranty] || 'No Warranty'}</small>

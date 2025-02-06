@@ -5,7 +5,7 @@
 }
 
 .profile-container .profile-page-top{
-    padding-top: 20px;
+    padding-top: 10px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--borderColor);
 }
@@ -139,10 +139,10 @@
     position: relative;
 }
 
-.tabs-container .tab-container h3{
+.tabs-container .tab-container .tab-heading{
     margin-bottom: 10px;
-    width: max-content;
-    border-bottom: 2px solid var(--primaryColor);
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--borderColor);
 }
 
 .tabs-container .tab-container .addr-form{
@@ -159,16 +159,6 @@
     padding-left: 10px;
     border-radius: 5px;
     background: var(--slightTransparentBg);
-}
-
-.tabs-container .tab-container .addr-form input::-webkit-outer-spin-button,
-.tabs-container .tab-container .addr-form input::-webkit-inner-spin-button{
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.tabs-container .tab-container .addr-form input[type=number]{
-    -moz-appearance: textfield;
 }
 
 .tabs-container .tab-container .addr-form input[type=checkbox]{
@@ -234,6 +224,179 @@
     transform: translate(-50%, -50%);
 }
 
+/* ---------------- profile info tab ---------------- */
+.information-tab h3{
+    margin-bottom: 0 !important;
+}
+
+.information-tab .edit-info{
+    font-size: 15px;
+    letter-spacing: .2px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--slightTransparentBg);
+    padding: 4px 8px;
+    border-radius: 3px;
+    transition: 200ms ease-in-out;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.information-tab .edit-info:hover{
+    background: var(--productBoxBg);
+}
+
+.user-info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-info-container .info-row{
+    display: flex;
+    flex-direction: column;
+    gap: 3px
+}
+
+.user-info-container .info-row .info-title{
+    font-weight: 600;
+    color: var(--secondaryTextColor);
+}
+
+.user-info-container .info-row input{
+    font-size: 16px;
+    border: 1px solid var(--slightTransparentBg);
+    color: var(--secondaryTextColor);
+    background: var(--background-color);
+    padding-left: 10px;
+}
+
+.user-info-container .info-row input, .user-info-container .country-flag-and-code{
+    height: 35px;
+    border-radius: 5px;
+}
+
+.user-info-container .info-row input,
+.user-info-container .phone-no .inp-and-code,
+.user-info-container .dob-inp{
+    width: 350px;
+    max-width: 100%;
+}
+
+.user-info-container .dob-inp{
+    position: relative;
+    border: 1px solid var(--slightTransparentBg);
+    border-radius: 5px;
+    cursor: pointer;
+    width: max-content;
+}
+
+.user-info-container .dob-inp input{
+    background: none;
+    opacity: 0;
+    cursor: pointer;
+    min-width: 100%;
+}
+
+.user-info-container .dob-inp .calender-icon,
+.user-info-container .dob-inp .date-displayer{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.user-info-container .dob-inp .date-displayer{
+    pointer-events: none;
+    right: unset;
+    left: 10px;
+    font-size: 16px;
+}
+
+.user-info-container .dob-inp .calender-icon svg{
+    fill: var(--tertiaryTextColor)
+}
+
+.user-info-container .gender .gndr-sel-opt{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.user-info-container .gender .gndr-sel-opt span{
+    letter-spacing: .2px;
+    color: var(--secondaryTextColor);
+}
+
+.user-info-container .gender .gender-options{
+    gap: 10px 15px;
+    flex-wrap: wrap;
+}
+
+.user-info-container .gender .gender-options input{
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--tertiaryTextColor);
+    border-radius: 50%;
+    outline: none;
+    background-color: var(--background-color);
+    transition: 150ms ease-in-out;
+}
+
+.user-info-container .gender .gndr-sel-opt * {
+    pointer-events: none;
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+}
+
+.user-info-container .gender .gender-options input[type="radio"]:checked {
+    border: 4px solid var(--primaryColor);
+    background-color: var(--slightTransparentBg);
+}
+
+.user-info-container .country-flag-and-code{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    pointer-events: none;
+    border: 1px solid var(--slightTransparentBg);
+}
+
+.user-info-container .info-row.phone-no .flag{
+    width: 23px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.user-info-container .info-row.phone-no span:last-child{
+    font-size: 15px;
+}
+
+.user-info-container .info-row.phone-no .flag svg{
+    vertical-align: middle;
+}
+
+.user-info-container .update-and-save{
+    width: max-content;
+    padding: 0 15px;
+    max-height: 40px;
+    background: var(--primaryColor);
+    font-weight: 600;
+    letter-spacing: .2px;
+    margin-left: auto;
+    text-transform: capitalize;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.user-info-container .update-and-save::after,
+.user-info-container .update-and-save::before{
+    background-color: var(--background-color);
+}
 
 /* ---------------- responsive ---------------- */
 

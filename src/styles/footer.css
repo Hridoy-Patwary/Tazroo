@@ -1,4 +1,9 @@
 .footer-container{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* background: var(--background-color); */
     border-top: 1px solid var(--borderColor);
 }
 
@@ -41,8 +46,9 @@
 /* ---------------- responsive ---------------- */
 @media only screen and (max-width: 768px){
     .footer-container .footer-main{
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 25px;
+        padding-top: 10px;
     }
 
     .footer-container .footer-main .footer-column{

@@ -18,7 +18,6 @@ export default function ProductList() {
         const id = itemRow.dataset.id;
         
         navigate(`?pg=add-product&pid=${id}`);
-        console.log(navigator);
     }
 
     useEffect(() => {
@@ -45,9 +44,18 @@ export default function ProductList() {
             <div className="product-list-rows">
                 {
                     products.map((product, i) => {
-                        return <div className="product-list-item df alic" key={i} data-id={product.id}>
-                            <input type="checkbox" />
-                            <p className='secondary-color'>{product.name}</p>
+                        return <div className="product-list-item df" key={i} data-id={product.id}>
+                            {/* <input type="checkbox" /> */}
+                            <img src={process.env.REACT_APP_API_URL + '/' + product.images[0].filePath} alt="product" />
+                            <div className="product-details">
+                                <p className='secondary-color mb5'>{product.name}</p>
+                                <small>Brand: {product.brand}</small>
+                                <small>Model: {product.modelname}</small>
+                                <div className="df alic gap10">
+                                    <small>Discount Price: {product.dprice}</small>
+                                    <small>Regular Price: {product.price}</small>
+                                </div>
+                            </div>
                             <button onClick={editBtnHandler}>
                                 <EditIcon width={20} height={20} />
                             </button>

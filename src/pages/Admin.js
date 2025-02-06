@@ -7,6 +7,7 @@ import AdminOverview from '../components/admin/AdminOverview';
 import AdminCheckOrder from '../components/admin/AdminCheckOrder';
 import AdminCheckUser from '../components/admin/AdminCheckUser';
 import ProductList from '../components/admin/ProductList';
+import Orders from '../components/admin/Orders';
 
 export default function Admin({ hdr }) {
     const [currentPage, setCurrentPage] = useState('overview');
@@ -41,6 +42,8 @@ export default function Admin({ hdr }) {
                 return <AdminCheckOrder />;
             case 'check-user':
                 return <AdminCheckUser />;
+            case 'orders':
+                return <Orders />
             default:
                 return <AdminOverview />;
         }
@@ -62,6 +65,7 @@ export default function Admin({ hdr }) {
     return (
         <div className='admin-panel-container'>
             <div className="admin-left-panel-outer" ref={panelOuterRef}>
+                <span className='current-page-pos-fixed'>{currentPage.replaceAll('-', ' ')}</span>
                 <AdminLeftBar render={renderAdminPanelPage} />
             </div>
             <div className="admin-panel-overflow-scroller">

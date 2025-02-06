@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import Products from '../components/Products'
 import { ReactComponent as ShopIcon } from '../assets/vector/shopping.svg';
+import { ReactComponent as FilterIcon } from '../assets/icons/filter.svg';
+import { ReactComponent as GridViewIcon } from '../assets/icons/grid-view.svg';
+import { ReactComponent as ListViewIcon } from '../assets/icons/list-view.svg';
 import Footer from '../components/Footer';
 import '../styles/home.css'
 
@@ -22,6 +25,29 @@ export default function Home({ hdr, prList }) {
         console.log('hello from custom order btn')
     }
 
+    const viewClickHandler = (e) => {
+        const tr = e.target;
+        const parent = tr.parentElement;
+        const productListContainer = document.querySelector('.products-container');
+        const oldAct = parent.querySelector('.active');
+
+        oldAct.classList.remove('active');
+        tr.classList.add('active');
+
+        if(tr.dataset.view === 'list'){
+            productListContainer.classList.add('list-view');
+        }else if(tr.dataset.view === 'grid'){
+            productListContainer.classList.remove('list-view');
+        }
+    }
+
+    const filterHandler = () => {
+        const headerOuter = document.querySelector('.header-outer');
+
+        headerOuter.classList.add('active-bg');
+        console.log('handle filter')
+    }
+
     useEffect(() => {
         let currentIndex = 1;
         const sliderTrack = sliderTrackDiv.current;
@@ -35,10 +61,10 @@ export default function Home({ hdr, prList }) {
 
         sliderTrack.style.transform = `translateX(-${currentIndex}00%)`;
 
-        sliderPos.current.innerHTML = ''
+        sliderPos.current.innerHTML = '';
         for (let i = 0; i < sliderTrack.querySelectorAll('.offer-box').length; i++) {
             const sliderPosElm = document.createElement('span');
-            if(i === currentIndex){
+            if (i === currentIndex) {
                 sliderPosElm.className = 'active';
             }
             sliderPos.current.appendChild(sliderPosElm);
@@ -49,7 +75,7 @@ export default function Home({ hdr, prList }) {
             currentIndex++;
             sliderTrack.style.transition = 'transform 1s ease-in-out';
             sliderTrack.style.transform = `translateX(-${currentIndex}00%)`;
-            if(activeSliderPos) activeSliderPos.classList.remove('active');
+            if (activeSliderPos) activeSliderPos.classList.remove('active');
             sliderPos.current.children[currentIndex].classList.add('active');
 
             sliderTrack.addEventListener('transitionend', () => {
@@ -60,9 +86,9 @@ export default function Home({ hdr, prList }) {
                 }
             });
         };
-    
+
         const sliderInterval = setInterval(moveSlider, 5000);
-    
+
         hdr(true);
         return () => {
             clearInterval(sliderInterval);
@@ -119,12 +145,33 @@ export default function Home({ hdr, prList }) {
                             <h3>Featured categories</h3>
                             <p className='tertiary-color'>Get Your Product from our Featured Category!</p>
                         </div>
-                        <div className="category-list">
-                            {categoryList.map((category, i) => (
-                                <div key={category} className={`category${i === 0 ? ' active' : ''}`} onClick={(e) => handleCategoryClick(e)}>
-                                    <p>{category}</p>
+                        <div className="category-sort-filter-bar df alic jstfy-btwn gap10">
+                            <div className="category-list">
+                                {categoryList.map((category, i) => (
+                                    <div key={category} className={`category${i === 0 ? ' active' : ''}`} onClick={(e) => handleCategoryClick(e)}>
+                                        <p>{category}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="sort-filter-container df alic gap10">
+                                <div className="view-option opts alic gap5">
+                                    <span className='title'>View: </span>
+                                    <div className="grid-and-list-view df">
+                                        <span className='icon active' onClick={viewClickHandler} data-view="grid">
+                                            <GridViewIcon width={20} height={20} />
+                                        </span>
+                                        <span className='icon' onClick={viewClickHandler} data-view="list">
+                                            <ListViewIcon width={20} height={20} />
+                                        </span>
+                                    </div>
                                 </div>
-                            ))}
+                                <div className="filter-option opts df alic gap5" onClick={filterHandler}>
+                                    <span className='title'>Filter: </span>
+                                    <span className='icon'>
+                                        <FilterIcon width={20} height={20} />
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="filter-bar"></div>
