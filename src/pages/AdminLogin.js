@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from '../assets/logo.png';
 
 export default function AdminLogin({ hdr }) {
     const usernameInp = useRef();
@@ -36,7 +37,7 @@ export default function AdminLogin({ hdr }) {
         inputs.forEach((inp) => {
             if(inp.value === ''){
                 empty = true;
-                inp.style.borderColor = 'red';
+                inp.style.borderColor = 'var(--warning)';
             }else {
                 inp.style = '';
             }
@@ -93,7 +94,12 @@ export default function AdminLogin({ hdr }) {
     return (
         <div className='admin-login'>
             <div className="login-inner">
-                <h3 style={{color: 'black'}}>Admin Login</h3>
+                <div className="t-center">
+                    <Link to={'/'}>
+                        <img src={Logo} alt="logo" width={60} />
+                    </Link>
+                    <h3 style={{color: 'black'}}>Admin Login</h3>
+                </div>
                 <input type="text" placeholder='Username' ref={usernameInp} onKeyDown={inpHandler} />
                 <input type="password" placeholder='Password' ref={passwordInp} onKeyDown={inpHandler} />
                 <div className="t-center">

@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
+
 import '../../styles/account.css'
 import { useLocation } from 'react-router-dom';
+
+
 
 export default function AddProductAdmin() {
     const formRef = useRef();
@@ -230,6 +233,14 @@ export default function AddProductAdmin() {
                         <span>Size</span>
                         <input type="text" name="size" required="" defaultValue={prData ? prData.size : ''} />
                     </div>
+                    {/* <div className="inp-box size">
+                        <span>Weight</span>
+                        <input type="text" name="weight" required placeholder='kg' defaultValue={prData ? prData.size : ''} />
+                    </div>
+                    <div className="inp-box size">
+                        <span>Dimensions</span>
+                        <input type="text" name="size" required="" plac defaultValue={prData ? prData.size : ''} />
+                    </div> */}
                     <div className="inp-box color">
                         <span>Color</span>
                         <input type="text" name="color" required="" defaultValue={prData ? prData.color : ''} />

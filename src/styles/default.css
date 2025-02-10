@@ -9,11 +9,12 @@
     --transparentPrColor: rgba(42, 184, 115, 0.50);
     --warning: rgba(248, 99, 99, 0.423);
     --background-color: #fff;
+    --headerBg: #fff;
     --text-color: #000;
-    --secondaryTextColor: #4d4d4d;
-    --tertiaryTextColor: #a6a6a6;
+    --secondaryTextColor: #3e3e3e;
+    --tertiaryTextColor: #a1a1a1;
     --borderColor: #3331;
-    --productBoxBg: #3331;
+    --productBoxBg: rgb(243, 243, 243);
     --slightTransparentBg: rgba(69, 69, 69, 0.067);
     --cartCheckoutLoadingBtnBg: rgba(243, 243, 243, 1);
     --headerShadowColor: #33333325;
@@ -23,11 +24,12 @@
 
 [theme='dark']:root {
     --background-color: #1d1d1d;
+    --headerBg: color(srgb 0.2431 0.2431 0.2432);
     --text-color: #fff;
     --secondaryTextColor: #dedede;
     --tertiaryTextColor: #696969;
     --borderColor: #c6c6c632;
-    --productBoxBg: #c6c6c632;
+    --productBoxBg: rgb(37, 37, 37);
     --slightTransparentBg: #c6c6c613;
     --cartCheckoutLoadingBtnBg: rgba(42, 42, 42, 1);
     --headerShadowColor: #0000003d;
@@ -110,6 +112,13 @@ button {
 }
 
 /* ---------------- default classes ---------------- */
+.button-disable{
+    background: #848484 !important;
+    border-color: #848484;
+    color: rgb(206, 206, 206) !important;
+    pointer-events: none;
+    opacity: .6;
+}
 
 .dn {
     display: none;
@@ -165,6 +174,10 @@ button {
 
 .jstfy-e {
     justify-content: flex-end;
+}
+
+.jstfy-c {
+    justify-content: center;
 }
 
 .c-pointer {

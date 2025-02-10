@@ -8,6 +8,7 @@ import AdminCheckOrder from '../components/admin/AdminCheckOrder';
 import AdminCheckUser from '../components/admin/AdminCheckUser';
 import ProductList from '../components/admin/ProductList';
 import Orders from '../components/admin/Orders';
+import Feedback from '../components/admin/Feedback';
 
 export default function Admin({ hdr }) {
     const [currentPage, setCurrentPage] = useState('overview');
@@ -42,6 +43,8 @@ export default function Admin({ hdr }) {
                 return <AdminCheckOrder />;
             case 'check-user':
                 return <AdminCheckUser />;
+            case 'feedback': 
+                return <Feedback />
             case 'orders':
                 return <Orders />
             default:

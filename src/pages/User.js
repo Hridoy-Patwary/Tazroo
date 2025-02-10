@@ -124,12 +124,20 @@ export default function User({ hdr }) {
     //     return await apiService.post(apiEndPoint, data);
     // }
 
+    const themeHandlerForAccountPage = () => {
+        const currentTheme = localStorage.getItem('theme');
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        const themeClr = currentTheme === 'dark' ? themeColor.getAttribute('next') : themeColor.getAttribute('default');
+
+        themeColor.setAttribute('content', currentTheme === null ? themeColor.getAttribute('default') : themeClr);
+    }
+
 
     const signInHandler = async (e) => {
         const targetBtn = e.target;
         try {
             const varified = inputsVarificationHandler(targetBtn.closest('.content-container'), 'in');
-            console.log(varified);
+
             if (varified) {
                 targetBtn.classList.add('loading');
                 await fetch(process.env.REACT_APP_API_URL + '/api/v1/user/login', {
@@ -140,12 +148,8 @@ export default function User({ hdr }) {
                     body: JSON.stringify(data)
                 }).then((res) => res.json()).then((data) => {
                     localStorage.setItem('ud', JSON.stringify(data.data));
-
-                    setTimeout(() => {
-                        targetBtn.classList.remove('loading');
-                        targetBtn.classList.add('ready');
-                        navigate('/profile');
-                    }, 500);
+                    themeHandlerForAccountPage();
+                    navigate('/profile');
                 }).catch((err) => {
                     targetBtn.classList.remove('loading');
                     console.log(err);
@@ -170,6 +174,7 @@ export default function User({ hdr }) {
                     },
                     body: JSON.stringify(data)
                 }).then((res) => res.json()).then((data) => {
+                    themeHandlerForAccountPage();
                     localStorage.setItem('ud', JSON.stringify(data.data));
                     navigate('/profile');
                 }).catch(err => {
@@ -187,15 +192,16 @@ export default function User({ hdr }) {
         console.log('forget!');
     }
 
-    if(isAccount){
-        const themeColor = document.querySelector('meta[name="theme-color"]');
-        themeColor.setAttribute('content', 'rgb(42 184 115)');
-        document.documentElement.setAttribute('pg', 'account');
-    }
-
     useEffect(() => {
+        if(isAccount){
+            const themeColor = document.querySelector('meta[name="theme-color"]');
+            themeColor.setAttribute('content', 'rgb(42 184 115)');
+            document.documentElement.setAttribute('pg', 'account');
+        }else{
+            document.documentElement.removeAttribute('pg');
+        }
         hdr(false);
-    }, [hdr])
+    }, [hdr, isAccount])
     return (
         <div className='account-user-container'>
             <div className="account-outer-container active-anim">
@@ -260,9 +266,13 @@ export default function User({ hdr }) {
                             <div className="t-center sign-btn-container">
                                 <button className="signup sign-anim-btn" onClick={signUpHandler}>Sign Up</button>
                             </div>
-                            <p className="already-have-acc">
+                            <p className="already-have-acc mb5">
                                 <span>Already have an account? </span>
                                 <span onClick={alreadyHaveAccHandler}>Sign In</span>
+                            </p>
+                            <p className="get-newsletter-updates df alic gap5 jstfy-c">
+                                <input type="checkbox" name="newsletter-update" />
+                                <span>Get newsletter & certfied product updates</span>
                             </p>
                             {/* <div className="social-login-container t-center">
                                 <p className="social-login-title">Continue with socials</p>

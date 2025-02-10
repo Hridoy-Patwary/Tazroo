@@ -12,6 +12,8 @@ const getCurrentDate = () => {
 };
 
 export default function Information({ data }) {
+    const editBtn = useRef();
+    const updateAndSaveBtn = useRef();
     const userInfoContainer = useRef();
     const [date, setDate] = useState(getCurrentDate());
     const [info, setInfo] = useState({});
@@ -25,10 +27,17 @@ export default function Information({ data }) {
         const inputs = userInfoContainer.current.querySelectorAll('input');
 
         inputs.forEach((inp) => {
+            if(inp.name === 'name'){
+                inp.readOnly = false;
+                inp.focus();
+            }
             if(inp.type !== 'email'){
                 inp.readOnly = false;
             }
-        })
+        });
+        userInfoContainer.current.classList.add('editmode');
+        editBtn.current.classList.add('hide');
+        updateAndSaveBtn.current.classList.remove('button-disable');
     }
 
     const inpHandler = (e) => {
@@ -41,6 +50,7 @@ export default function Information({ data }) {
 
     const genderOptHandler = (e) => {
         const tr = e.target;
+        console.log(tr)
         const inp = tr.querySelector('input');
         inp.checked = true;
     }
@@ -73,6 +83,9 @@ export default function Information({ data }) {
                 body: JSON.stringify(dataObj)
             }).then((res) => res.json()).then((data) => {
                 console.log(data);
+                userInfoContainer.current.classList.remove('editmode');
+                editBtn.current.classList.remove('hide');
+                updateAndSaveBtn.current.classList.add('button-disable');
                 tr.classList.remove('loading');
             }).catch((err) => {
                 console.log('Error while updating info: ', err);
@@ -100,12 +113,12 @@ export default function Information({ data }) {
         <div className='tab-container information-tab'>
             <div className="tab-heading df alic jstfy-btwn mb10">
                 <h3>Personal Information</h3>
-                <span className="edit-info pr-color u_sel_none" onClick={editInfoHandler}>Edit Profile</span>
+                <span className="edit-info pr-color u_sel_none" onClick={editInfoHandler} ref={editBtn}>Edit Profile</span>
             </div>
             <div className="user-info-container" ref={userInfoContainer}>
                 <div className="info-row">
                     <span className="info-title">Name</span>
-                    <input type="text" defaultValue={info.name} className='profile-info-name' readOnly={true} />
+                    <input type="text" defaultValue={info.name} name='name' className='profile-info-name' readOnly={true} />
                 </div>
                 <div className="info-row">
                     <span className="info-title">Email</span>
@@ -154,7 +167,7 @@ export default function Information({ data }) {
                     </div>
                 </div>
                 <div className="df alic jstfy-e">
-                    <button className="update-and-save sign-anim-btn" onClick={updateAndSaveHandler}>Update & Save</button>
+                    <button className="update-and-save sign-anim-btn button-disable" onClick={updateAndSaveHandler} ref={updateAndSaveBtn}>Update & Save</button>
                 </div>
             </div>
         </div>

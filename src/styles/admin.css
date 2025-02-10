@@ -654,6 +654,7 @@
     color: white;
     font-weight: 600;
     margin: auto;
+    text-transform: capitalize;
 }
 
 /* ---------------- admin panel overview ---------------- */
@@ -686,4 +687,25 @@
 
 .overview-outer .overview-first-row .box1x2{
     flex-grow: 2;
+}
+
+
+/* ---------------- admin panel feedback ---------------- */
+
+.admin-feedback-list-container{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-feedback-list-container div{
+    border-radius: 5px;
+    padding: 10px;
+    background: var(--productBoxBg);
+}
+
+.admin-feedback-list-container div h3{
+    font-size: 17px;
+    margin-bottom: 3px;
 }

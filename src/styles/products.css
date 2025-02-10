@@ -2,6 +2,17 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
+    overflow: hidden;
+}
+
+.product-page-container {
+    padding-top: 5px;
+    padding-bottom: 30px;
+    overflow: hidden;
+}
+
+.product-page-container ~ .footer-container{
+    margin-bottom: 61px;
 }
 
 .products-container.list-view{
@@ -9,7 +20,7 @@
 }
 
 .products-container .product-box {
-    background-color: var(--slightTransparentBg);
+    background-color: var(--productBoxBg);
     border-radius: 5px;
     cursor: pointer;
     overflow: hidden;
@@ -246,11 +257,6 @@
     transform: translateY(-50%);
 }
 
-.product-page-container {
-    padding-top: 5px;
-    padding-bottom: 30px;
-}
-
 .product-page-container .add-to-cart {
     background: var(--primaryColor);
     border: none;
@@ -266,6 +272,28 @@
 
 .product-page-container .cart-page-btn {
     display: none;
+    position: relative;
+}
+
+.product-page-container .cart-page-btn .cart-counter{
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--primaryColor);
+    box-shadow: 3px 3px 10px #3333338b;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.product-page-container .cart-page-btn .cart-counter.active{
+    opacity: 1;
+    visibility: visible;
 }
 
 .product-page-container .add-to-cart svg {

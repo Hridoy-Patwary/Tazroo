@@ -17,6 +17,7 @@ import FilterBar from './FilterBar';
 export default function Header({ prList }) {
     const navigate = useNavigate();
     const location = useLocation();
+    const searchBtn = useRef();
     const [items, setItems] = useState();
     const { theme, toggleTheme } = useContext(ThemeContext);
     const [srcRes, setsrcRes] = useState([]);
@@ -24,7 +25,6 @@ export default function Header({ prList }) {
     const [scrollDirection, setScrollDirection] = useState(null);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [activeLink, setActiveLink] = useState('home');
-    const [htmlClass, setHtmlClass] = useState('');
     const overlayBgForSearch = useRef();
     const isDarkMode = theme === 'dark';
 
@@ -42,6 +42,30 @@ export default function Header({ prList }) {
         console.log(selectedLang);
     }
 
+    const getThemeContent = () => {
+        const themeContent = document.querySelector('meta[name="theme-color"]');
+        const defaultThemeClr = themeContent.getAttribute('default');
+        const nextThemeClr = themeContent.getAttribute('next');
+
+        return {
+            elm: themeContent,
+            default: defaultThemeClr,
+            next: nextThemeClr
+        }
+    }
+
+    const themeChange = (colorCode) => {
+        const themeContent = document.querySelector('meta[name="theme-color"]');
+        themeContent.setAttribute('content', colorCode);
+    }
+
+    const themeHandler = () => {
+        const themeElmData = getThemeContent();
+
+        themeChange(theme === 'light' ? themeElmData.next : themeElmData.default);
+        toggleTheme();
+    }
+
     const handleNavMenuClick = (e) => {
         const headerOuter = e.target.closest('.header-outer');
         const headerMenuInp = headerOuter.querySelector('.header-menu input');
@@ -57,7 +81,7 @@ export default function Header({ prList }) {
         }
     }
 
-    console.log(htmlClass, 'fix why its loading too many times');
+    console.log('fix why its loading too many times');
 
 
     let typingTimeout = null;
@@ -72,9 +96,10 @@ export default function Header({ prList }) {
         }, 1000);
 
         if (e.target.value === '') {
+            searchBtn.current.classList.add('unactive');
             overlayBgForSearch.current.classList.remove('active');
-            return;
         } else {
+            searchBtn.current.classList.remove('unactive');
             overlayBgForSearch.current.classList.add('active');
             const filterSearch = prList.filter((v) => v.name.toLowerCase().includes(e.target.value.toLowerCase()));
             setsrcRes(filterSearch);
@@ -83,13 +108,10 @@ export default function Header({ prList }) {
 
     const searchInpInFocus = () => {
         const headerOuter = overlayBgForSearch.current.parentElement.parentElement;
-        const themeColor = document.querySelector('meta[name="theme-color"]');
         const headerMenuCheckbox = headerOuter.querySelector(".header-menu input");
-        let color = '#0a0a0aff';
 
         if (windowWidth > 768) return;
-        // themeColor.setAttribute('content', 'color(srgb 0.0321 0.134 0.0837)');
-        themeColor.setAttribute('content', color);
+        themeChange(theme === 'light' ? 'color(srgb 0.1882 0.1882 0.1883)' : 'color(srgb 0.0471 0.0471 0.0471)');
         document.body.classList.add('no-scroll');
         headerOuter.classList.remove('active');
         headerMenuCheckbox.checked = false;
@@ -98,12 +120,11 @@ export default function Header({ prList }) {
 
     const hideSearchWin = () => {
         const headerOuter = overlayBgForSearch.current.parentElement.parentElement;
-        const themeColor = document.querySelector('meta[name="theme-color"]');
-        let color = '#333';
 
         if (windowWidth > 768) return;
-        // themeColor.setAttribute('content', '#2ab873');
-        themeColor.setAttribute('content', color);
+        const themeElmData = getThemeContent();
+
+        themeChange(theme === 'light' ? themeElmData.default : themeElmData.next);
         overlayBgForSearch.current.classList.remove('active');
         document.body.classList.remove('no-scroll');
         headerOuter.classList.remove('show-search');
@@ -111,6 +132,7 @@ export default function Header({ prList }) {
 
     const searchHandler = () => {
         navigate('/search');
+        hideSearchWin();
     }
 
     const handleLinkClick = (linkName) => {
@@ -161,41 +183,17 @@ export default function Header({ prList }) {
         
         const pathList = ['product', 'account', 'cart', 'admin', 'services', 'profile'];
         const matched = pathList.find((path) => location.pathname.includes(path));
-        if (matched) {
-            if(matched !== htmlClass){
-                setHtmlClass(matched);
-            }
-        } else {
-            if(location.pathname === '/'){
-                setHtmlClass('home');
-            }
+        if(matched){
+            console.log(matched)
         }
-        if(htmlClass !== '' && matched !== 'account'){
-            document.querySelector('meta[name="theme-color"]').setAttribute('content','#333');
-        }
-        // const matched = pathList.find((path) => location.pathname.includes(path));
-        // if(matched){
-        //     const newCls = `${matched}-page`;
-        //     if(newCls !== htmlClass){
-        //         setHtmlClass(newCls);
-        //     }
-        // }else{
-        //     if(htmlClass !== ''){
-        //         setHtmlClass('');
-        //     }
-        // }
-        console.log(location.pathname, matched);
-
-        // if(htmlClass !== ''){
-        //     document.documentElement.setAttribute('pg', htmlClass);
-        // }
-    }, [location.pathname, htmlClass]);
+    }, [location.pathname, theme]);
 
     return (
         <div className='header-outer' data-dir={scrollDirection}>
             <div className="container">
                 <Link to={'/'} className='header-logo-container'>
-                    <img src={windowWidth < 768 ? logoWhite : (isDarkMode ? logoWhite : Logo)} alt="logo" className='header-logo' />
+                    {/* <img src={windowWidth < 768 ? logoWhite : (isDarkMode ? logoWhite : Logo)} alt="logo" className='header-logo' /> */}
+                    <img src={isDarkMode ? logoWhite : Logo} alt="logo" className='header-logo' />
                 </Link>
                 <div className="header-search">
                     <div className="header-search-spinner-and-icon">
@@ -203,7 +201,7 @@ export default function Header({ prList }) {
                         <SearchIcon width={20} height={20} fill={windowWidth < 768 ? 'black' : (isDarkMode ? 'white' : 'black')} />
                     </div>
                     <input type="text" placeholder='Search...' onKeyUp={searchInpHandler} onFocus={searchInpInFocus} />
-                    <button className='search-btn' onClick={searchHandler}>
+                    <button className='search-btn unactive' onClick={searchHandler} ref={searchBtn}>
                         <span>Search</span>
                     </button>
                 </div>
@@ -250,7 +248,7 @@ export default function Header({ prList }) {
                         </span>
                         <span className='button-content-mob'>Account</span>
                     </Link>
-                    <div className="theme-toggle-btn header-button" onClick={toggleTheme}>
+                    <div className="theme-toggle-btn header-button" onClick={themeHandler}>
                         <ThemeToggleIcon />
                         <span className='button-content-mob'>{theme}</span>
                     </div>
@@ -267,15 +265,9 @@ export default function Header({ prList }) {
                     </Link>
                     <div className="mob-bottom-menus">
                         <Link to={'/feedback'} className='header-button' data-showmob="true">
-                            <span>
-                                <UserIcon width={23} />
-                            </span>
                             <span className='button-content-mob'>Feedback</span>
                         </Link>
                         <Link to={'/contact-us'} className='header-button' data-showmob="true">
-                            <span>
-                                <UserIcon width={23} />
-                            </span>
                             <span className='button-content-mob'>Chat with us</span>
                         </Link>
                     </div>

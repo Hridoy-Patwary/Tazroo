@@ -55,6 +55,7 @@ export default function AdminLeftBar({ render }) {
                 <li data-page='overview' onClick={adminBarClickHandler} className='u_sel_none'>Overview</li>
                 <li data-page='add-product' onClick={adminBarClickHandler} className='u_sel_none'>Add Product</li>
                 <li data-page='product-list' onClick={adminBarClickHandler} className='u_sel_none'>Product List</li>
+                <li data-page='feedback' onClick={adminBarClickHandler} className='u_sel_none'>Feedback</li>
                 <li data-page='orders' onClick={adminBarClickHandler} className='u_sel_none'>Orders</li>
                 <li data-page='check-order' onClick={adminBarClickHandler} className='u_sel_none'>Check Order</li>
                 <li data-page='check-user' onClick={adminBarClickHandler} className='u_sel_none'>Check User</li>

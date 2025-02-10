@@ -20,7 +20,7 @@ export default function Address({ id, data }) {
 
     addrInputs.forEach((inp) => {
       if(inp.type !== 'checkbox' && inp.required && inp.value === ''){
-        inp.style.border = '1px solid rgb(255, 158, 158)';
+        inp.style.border = '1px solid var(--warning)';
         empty = true;
       }else{
         inp.style = '';

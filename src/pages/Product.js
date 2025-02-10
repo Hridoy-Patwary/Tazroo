@@ -13,6 +13,7 @@ export default function Product({ hdr, prList }) {
     const descRef = useRef(null);
     const location = useLocation();
     const navigation = useNavigate();
+    const [items, setItems] = useState();
     const [product, setProduct] = useState(null);
     const [truncatedText, setTruncatedText] = useState('');
     const pathnames = location.pathname.split('/').filter(x => x);
@@ -47,6 +48,7 @@ export default function Product({ hdr, prList }) {
         if (found === -1) {
             product.quantity = 1;
             itemsJSON.push(product);
+            setItems(itemsJSON);
             localStorage.setItem('cart', JSON.stringify(itemsJSON));
         } else {
             localStorage.setItem('cart', JSON.stringify(updatedItems));
@@ -126,6 +128,23 @@ export default function Product({ hdr, prList }) {
         }
     }
 
+    const quantityHandler = (e) => {
+        const target = e.target;
+        const quantityInp = target.parentElement.querySelector('input');
+        const quantityValue = parseInt(quantityInp.value);
+        const increaseOrDecrease = target.dataset.value;
+        let updatedQuantity;
+        const minMax = { min: quantityInp.min, max: quantityInp.max };
+
+        if (increaseOrDecrease === 'increase') {
+            updatedQuantity = quantityValue + 1;
+            quantityInp.value = updatedQuantity > minMax.max ? minMax.max : updatedQuantity;
+        } else {
+            updatedQuantity = quantityValue - 1;
+            quantityInp.value = updatedQuantity < minMax.min ? minMax.min : updatedQuantity;
+        }
+    }
+
     const selectColorHandler = (e) => {
         const tr = e.target;
         const parent = tr.parentElement;
@@ -169,6 +188,10 @@ export default function Product({ hdr, prList }) {
                 .then((data) => setProduct(data))
                 .catch((error) => console.error('Error fetching product details:', error));
         }
+
+        const cartItems = JSON.parse(localStorage.getItem('cart'));
+
+        setItems(cartItems);
     }, [id]);
 
     useEffect(() => {
@@ -289,15 +312,16 @@ export default function Product({ hdr, prList }) {
                             </div>
                             <div className="product-view-bottom-row">
                                 <div className="quantity">
-                                    <button data-value="decrease">-</button>
+                                    <button onClick={quantityHandler} data-value="decrease">-</button>
                                     <input type="number" min={1} max={10} value={1} readOnly />
-                                    <button data-value="increase">+</button>
+                                    <button onClick={quantityHandler}  data-value="increase">+</button>
                                 </div>
                                 <button className="add-to-cart" onClick={addToCart}>
                                     Add to cart<CartIcon width={23} height={23} />
                                 </button>
                                 <button className="cart-page-btn" onClick={gotoCartPage}>
                                     <CartPageIcon width={23} height={23} />
+                                    <span className={`cart-counter${items && items.length > 0 ? ' active' : ''}`}>{items && items.length > 0 ? items.length : '0'}</span>
                                 </button>
                             </div>
                         </div>

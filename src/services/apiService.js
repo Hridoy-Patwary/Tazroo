@@ -63,6 +63,6 @@ class ApiService {
 }
 
 // Create an instance of the ApiService class with your backend API URL
-const apiService = new ApiService("http://localhost:4000/api/v1");
+const apiService = new ApiService();
 
 export default apiService;
